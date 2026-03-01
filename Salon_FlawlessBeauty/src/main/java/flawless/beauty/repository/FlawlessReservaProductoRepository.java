@@ -8,6 +8,6 @@ package flawless.beauty.repository;
  *
  * @author Damin
  */
-public interface FlawlessReservaRepository {
+public interface FlawlessReservaProductoRepository {
     
 }

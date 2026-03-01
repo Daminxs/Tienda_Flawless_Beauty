@@ -8,6 +8,6 @@ package flawless.beauty.controllers;
  *
  * @author Damin
  */
-public class FlawlessReservaController {
+public class FlawlessUsuarioController {
     
 }
