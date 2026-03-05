@@ -6,8 +6,9 @@ package flawless.beauty.service;
 
 /**
  *
- * @author Damin
+ * Encargado para: Damian Perez
  */
+
 public class FlawlessCategoriaService {
     
 }

@@ -6,8 +6,16 @@ package flawless.beauty.controllers;
 
 /**
  *
- * @author Damin
+ * Encargado para: Damian Perez
  */
+
+// Esta clase debe hacer lo siguiente:
+
+// Controlar el apartado de Categorías dentro del sitio web.
+// Recibir las solicitudes cuando se necesita consultar las categorías de servicios o productos.
+// Mostrar las categorías disponibles para organizar los servicios y productos.
+// Permitir utilizar las categorías para clasificar los servicios y productos dentro del sistema.
+
 public class FlawlessCategoriaController {
     
 }

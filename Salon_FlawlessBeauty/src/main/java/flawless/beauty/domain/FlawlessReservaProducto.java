@@ -9,6 +9,14 @@ package flawless.beauty.domain;
  * Encargado para: Damian Perez
  */
 
+// Esta clase debe hacer lo siguiente:
+
+// Representar la entidad ReservaProducto dentro del sistema.
+// Esta clase se conecta con la tabla reserva_producto de la base de datos.
+// Contiene la información de las reservas de productos realizadas por los usuarios.
+// Define atributos como id, nombre del cliente, producto seleccionado y cantidad.
+// Permite registrar cuando un usuario realiza una reserva de un producto.
+
 public class FlawlessReservaProducto {
     
 }
