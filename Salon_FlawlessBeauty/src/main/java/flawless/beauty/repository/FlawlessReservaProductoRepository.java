@@ -6,8 +6,9 @@ package flawless.beauty.repository;
 
 /**
  *
- * @author Damin
+ * Encargado para: Damian Perez
  */
+
 public interface FlawlessReservaProductoRepository {
     
 }

@@ -6,8 +6,9 @@ package flawless.beauty.repository;
 
 /**
  *
- * @author Damin
+ * Encargado para: Jose Ulate
  */
+
 public interface FlawlessServicioRepository {
     
 }

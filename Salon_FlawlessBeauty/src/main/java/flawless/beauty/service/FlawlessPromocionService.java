@@ -6,8 +6,9 @@ package flawless.beauty.service;
 
 /**
  *
- * @author Damin
+ * Encargado para: Monica Garcia
  */
+
 public class FlawlessPromocionService {
     
 }

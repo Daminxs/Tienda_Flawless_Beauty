@@ -6,8 +6,16 @@ package flawless.beauty.controllers;
 
 /**
  *
- * @author Damin
+ * Encargado para: Damian Perez
  */
+
+// Esta clase debe hacer lo siguiente:
+
+// Controlar la página principal del sitio web.
+// Recibir la solicitud cuando el usuario entra a la página principal del sistema.
+// Mostrar la página index.html ubicada en la carpeta templates.
+// Este apartado es para que el usuario pueda navegar hacia las demás secciones del sitio.
+
 public class IndexController {
     
 }

@@ -6,8 +6,17 @@ package flawless.beauty.controllers;
 
 /**
  *
- * @author Damin
+ * Encargado para: Damian Perez
  */
+
+// Esta clase debe hacer lo siguiente:
+
+// Controlar el apartado de reserva de productos dentro del sitio web.
+// Recibir la solicitud cuando un usuario desea reservar un producto.
+// Mostrar una ventana donde el usuario puede seleccionar un producto para reservar.
+// Guardar en la base de datos la información de la reserva realizada por el usuario.
+// Registrar datos como el usuario, el producto seleccionado y la fecha de la reserva.
+
 public class FlawlessReservaProductoController {
     
 }

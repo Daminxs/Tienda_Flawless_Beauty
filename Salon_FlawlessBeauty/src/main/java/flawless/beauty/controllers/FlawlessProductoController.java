@@ -6,8 +6,17 @@ package flawless.beauty.controllers;
 
 /**
  *
- * @author Damin
+ * Encargado para: Jose Ulate
  */
+
+// Esta clase debe hacer lo siguiente:
+
+// Controlar el apartado de Productos dentro del sitio web.
+// Recibir las solicitudes del navegador cuando el usuario entra a la sección de productos.
+// Mostrar la página donde se listan los productos disponibles del salón.
+// Permitir mostrar información de cada producto como nombre, descripción, precio e imagen.
+// Permitir que el usuario vea los productos y pueda seleccionar uno para realizar una reserva.
+
 public class FlawlessProductoController {
     
 }

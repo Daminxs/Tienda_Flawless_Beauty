@@ -6,8 +6,9 @@ package flawless.beauty.domain;
 
 /**
  *
- * @author Damin
+ * Encargado para: Jose Ulate
  */
+
 public class FlawlessProducto {
     
 }

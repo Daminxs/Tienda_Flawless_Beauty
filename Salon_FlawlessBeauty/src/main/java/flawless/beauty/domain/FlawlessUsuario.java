@@ -6,8 +6,9 @@ package flawless.beauty.domain;
 
 /**
  *
- * @author Damin
+ * Encargado para: Daniela Navarro
  */
+
 public class FlawlessUsuario {
     
 }

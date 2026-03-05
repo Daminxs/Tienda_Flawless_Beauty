@@ -6,8 +6,9 @@ package flawless.beauty.repository;
 
 /**
  *
- * @author Damin
+ * Encargado para: Monica Garcia
  */
+
 public interface FlawlessPromocionRepository {
     
 }
