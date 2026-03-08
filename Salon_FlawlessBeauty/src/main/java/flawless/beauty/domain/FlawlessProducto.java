@@ -17,6 +17,25 @@ package flawless.beauty.domain;
 // Define atributos como id, nombre, descripción, precio y stock.
 // Permite manejar la información de los productos que el usuario puede ver y reservar.
 
-public class FlawlessProducto {
-    
+import jakarta.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="producto")
+public class FlawlessProducto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+    private String descripcion;
+    private BigDecimal precio;
+    private Integer stock;
+
 }

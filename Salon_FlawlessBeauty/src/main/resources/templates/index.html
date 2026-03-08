@@ -2,9 +2,7 @@
 <!--
     Encargado para Damian
 -->
-
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 
     <head th:replace="~{general/fragmentos :: head}"></head>
 
@@ -12,19 +10,81 @@
 
         <header th:replace="~{general/fragmentos :: header}"></header>
 
-        <!-- Imagen principal -->
-        <div class="container text-center mt-4">
-            <h2>Bienvenido a Salon de Belleza</h2>
-            <img th:src="@{/img/salon.jpg}"
-                 class="img-fluid rounded shadow mt-3"
-                 style="max-height: 400px;"
-                 alt="Salon Belleza">
-        </div>
 
-        <section th:replace="~{salonconsultas/fragmentos :: tabs}"></section>
-        <section th:replace="~{salonconsultas/fragmentos :: tarjetas}"></section>
+        <section class="container text-center mt-5">
+
+            <h1 class="fw-bold">Flawless Beauty</h1>
+
+            <p class="mt-3">
+                En Flawless Beauty ofrecemos productos de belleza cuidadosamente
+                seleccionados para resaltar tu estilo y cuidar cada detalle de tu look.
+                Descubre nuestra colección de maquillaje, joyería y accesorios para uñas,
+                cejas y pestañas.
+            </p>
+
+        </section>
+
+
+        <section class="container mt-5 text-center">
+
+            <h2 class="mb-4">Conoce a Flawless Beauty</h2>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <img th:src="@{/img/duena1.jpg}"
+                         class="img-fluid rounded shadow">
+
+                    <h5 class="mt-3">Anyelín Molina</h5>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <img th:src="@{/img/duena2.jpg}"
+                         class="img-fluid rounded shadow">
+
+                    <h5 class="mt-3">Fernanda Molina</h5>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- PRODUCTOS -->
+        <section class="container mt-5 text-center">
+
+            <h2 class="mb-4">Productos de la Tienda</h2>
+
+            <div class="row">
+
+                <!-- categoria 1 -->
+                <div class="col-md-6">
+
+                    <img th:src="@{/img/unas.jpg}"
+                         class="img-fluid rounded shadow">
+
+                    <h4 class="mt-3">Uñas, Cejas y Pestañas</h4>
+
+                </div>
+
+
+                <!-- categoria 2 -->
+                <div class="col-md-6">
+
+                    <img th:src="@{/img/joyeria.jpg}"
+                         class="img-fluid rounded shadow">
+
+                    <h4 class="mt-3">Joyería y Maquillaje</h4>
+
+                </div>
+            </div>
+        </section>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
-
     </body>
 </html>

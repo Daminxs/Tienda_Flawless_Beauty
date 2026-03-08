@@ -6,10 +6,15 @@ package flawless.beauty.repository;
 
 /**
  *
- * @author Damin
+ * Encargado para: Damian Perez
  */
 
-// Encargado para Damian
+// Esta interfaz debe hacer lo siguiente:
+
+// Permitir la comunicación entre el sistema y la base de datos para la entidad Rol.
+// Se conecta con la tabla rol de la base de datos.
+// Permite consultar los roles disponibles dentro del sistema.
+// Es utilizada para gestionar los permisos y tipos de usuario.
 
 public interface FlawlessRolRepository {
     

@@ -17,6 +17,21 @@ package flawless.beauty.domain;
 // Define atributos como el id de la categoría y su nombre.
 // Permite organizar los servicios según su tipo, por ejemplo uñas, pestañas o maquillaje.
 
-public class FlawlessCategoria {
-    
+import jakarta.persistence.*;
+import java.io.Serializable;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="categoria")
+public class FlawlessCategoria implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nombre;
+
 }
