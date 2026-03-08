@@ -17,6 +17,35 @@ package flawless.beauty.domain;
 // Define atributos como id, nombre del cliente, producto seleccionado y cantidad.
 // Permite registrar cuando un usuario realiza una reserva de un producto.
 
-public class FlawlessReservaProducto {
-    
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "reserva_producto")
+public class FlawlessReservaProducto implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Size(max = 100)
+    @Column(name = "nombre_cliente", nullable = false, length = 100)
+    private String nombreCliente;
+
+    @NotNull
+    @Min(1)
+    @Column(nullable = false)
+    private Integer cantidad;
+
+    // Relación con producto
+    @ManyToOne
+    @JoinColumn(name = "producto_id", nullable = false)
+    private FlawlessProducto producto;
+
 }

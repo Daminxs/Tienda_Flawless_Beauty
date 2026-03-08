@@ -16,6 +16,9 @@ package flawless.beauty.repository;
 // Permite guardar y consultar las citas o reservas de servicios.
 // Es utilizada por la capa de servicios para gestionar las reservas de servicios del salón.
 
-public interface FlawlessReservaServicioRepository {
-    
+import flawless.beauty.domain.FlawlessReservaServicio;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FlawlessReservaServicioRepository extends JpaRepository<FlawlessReservaServicio, Long> {
+
 }

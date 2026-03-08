@@ -18,6 +18,7 @@ package flawless.beauty.domain;
 // Permite organizar los servicios según su tipo, por ejemplo uñas, pestañas o maquillaje.
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -32,6 +33,9 @@ public class FlawlessCategoria implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
     private String nombre;
 
 }

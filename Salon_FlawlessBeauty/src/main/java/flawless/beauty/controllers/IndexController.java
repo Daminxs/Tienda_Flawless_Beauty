@@ -16,6 +16,14 @@ package flawless.beauty.controllers;
 // Mostrar la página index.html ubicada en la carpeta templates.
 // Este apartado es para que el usuario pueda navegar hacia las demás secciones del sitio.
 
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+@Controller
 public class IndexController {
-    
+
+    @GetMapping({"/", "/index"})
+    public String inicio() {
+        return "index";
+    }
 }

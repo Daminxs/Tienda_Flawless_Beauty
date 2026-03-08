@@ -17,6 +17,39 @@ package flawless.beauty.domain;
 // Define atributos como id, nombre del cliente, fecha, hora y servicio seleccionado.
 // Permite registrar cuando un usuario agenda una cita para un servicio.
 
-public class FlawlessReservaServicio {
-    
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "reserva_servicio")
+public class FlawlessReservaServicio implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Size(max = 100)
+    @Column(name = "nombre_cliente", nullable = false, length = 100)
+    private String nombreCliente;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalDate fecha;
+
+    @NotNull
+    @Column(nullable = false)
+    private LocalTime hora;
+
+    // Relación con servicio
+    @ManyToOne
+    @JoinColumn(name = "servicio_id", nullable = false)
+    private FlawlessServicio servicio;
 }

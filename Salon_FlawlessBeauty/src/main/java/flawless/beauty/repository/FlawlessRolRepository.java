@@ -16,6 +16,9 @@ package flawless.beauty.repository;
 // Permite consultar los roles disponibles dentro del sistema.
 // Es utilizada para gestionar los permisos y tipos de usuario.
 
-public interface FlawlessRolRepository {
-    
+import flawless.beauty.domain.FlawlessRol;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FlawlessRolRepository extends JpaRepository<FlawlessRol, Long> {
+
 }
