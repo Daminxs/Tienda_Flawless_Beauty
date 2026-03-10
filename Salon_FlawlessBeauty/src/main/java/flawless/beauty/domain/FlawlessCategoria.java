@@ -24,7 +24,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="categoria")
+@Table(name="categoria_producto")
 public class FlawlessCategoria implements Serializable {
 
     private static final long serialVersionUID = 1L;
