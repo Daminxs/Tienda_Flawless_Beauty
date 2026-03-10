@@ -18,8 +18,8 @@ package flawless.beauty.domain;
 // Permite manejar la información de los productos que el usuario puede ver y reservar.
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
@@ -33,9 +33,24 @@ public class FlawlessProducto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
     private String nombre;
+
+    @Size(max = 255)
     private String descripcion;
-    private BigDecimal precio;
+
+    @NotNull
+    private Double precio;
+
+    @NotNull
     private Integer stock;
+
+    private String imagen;
+
+    @ManyToOne
+    @JoinColumn(name="categoria_id")
+    private FlawlessCategoria categoria;
 
 }

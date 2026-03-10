@@ -18,6 +18,7 @@ package flawless.beauty.controllers;
 
 import flawless.beauty.domain.FlawlessCategoria;
 import flawless.beauty.service.FlawlessCategoriaService;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,15 +35,15 @@ public class FlawlessCategoriaController {
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        var categorias = categoriaService.getCategorias();
+        List<FlawlessCategoria> categorias = categoriaService.getCategorias();
         model.addAttribute("categorias", categorias);
-        return "/saloncategorias/listado";
+        return "saloncategorias/listado";
     }
 
     @GetMapping("/nuevo")
     public String nuevo(Model model) {
         model.addAttribute("categoria", new FlawlessCategoria());
-        return "/saloncategorias/modifica";
+        return "saloncategorias/modifica";
     }
 
     @PostMapping("/guardar")
@@ -53,9 +54,9 @@ public class FlawlessCategoriaController {
 
     @GetMapping("/modificar/{id}")
     public String modificar(@PathVariable Long id, Model model) {
-        var categoria = categoriaService.getCategoria(id);
+        FlawlessCategoria categoria = categoriaService.getCategoria(id).orElse(null);
         model.addAttribute("categoria", categoria);
-        return "/saloncategorias/modifica";
+        return "saloncategorias/modifica";
     }
 
     @GetMapping("/eliminar/{id}")
