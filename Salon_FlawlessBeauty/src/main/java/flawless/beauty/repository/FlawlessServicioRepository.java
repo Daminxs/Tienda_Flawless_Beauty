@@ -16,6 +16,12 @@ package flawless.beauty.repository;
 // Permite consultar, guardar o actualizar los servicios que ofrece el salón.
 // Es utilizada por la capa de servicios para acceder a la información de los servicios.
 
-public interface FlawlessServicioRepository {
+import flawless.beauty.domain.FlawlessServicio;
+import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FlawlessServicioRepository extends JpaRepository<FlawlessServicio, Long> {
+    
+    List<FlawlessServicio> findByCategoriaId(Long categoriaId);
     
 }
