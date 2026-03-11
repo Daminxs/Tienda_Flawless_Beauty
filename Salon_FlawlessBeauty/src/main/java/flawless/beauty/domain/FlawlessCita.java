@@ -17,6 +17,37 @@ package flawless.beauty.domain;
 // realizadas por los usuarios, como el servicio solicitado, la fecha,
 // la hora y el correo del cliente que agenda la cita.
 
-public class FlawlessCita {
-    
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name="cita")
+public class FlawlessCita implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
+    private String nombreCliente;
+
+    @NotNull
+    private LocalDate fecha;
+
+    @NotNull
+    private LocalTime hora;
+
+    @ManyToOne
+    @JoinColumn(name="servicio_id")
+    private FlawlessServicio servicio;
+
 }

@@ -16,6 +16,32 @@ package flawless.beauty.service;
 // Utilizar el repository de ReservaProducto para guardar la información en la base de datos.
 // Servir como intermediario entre el controller y el repository para gestionar las reservas de productos.
 
+import flawless.beauty.domain.FlawlessReserva;
+import flawless.beauty.repository.FlawlessReservaRepository;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
 public class FlawlessReservaService {
-    
+
+    @Autowired
+    private FlawlessReservaRepository reservaRepository;
+
+    public List<FlawlessReserva> getReservas() {
+        return reservaRepository.findAll();
+    }
+
+    public FlawlessReserva getReserva(FlawlessReserva reserva) {
+        return reservaRepository.findById(reserva.getId()).orElse(null);
+    }
+
+    public void save(FlawlessReserva reserva) {
+        reservaRepository.save(reserva);
+    }
+
+    public void delete(FlawlessReserva reserva) {
+        reservaRepository.delete(reserva);
+    }
+
 }

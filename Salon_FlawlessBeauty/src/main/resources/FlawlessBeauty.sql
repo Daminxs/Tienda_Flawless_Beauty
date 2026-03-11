@@ -27,7 +27,32 @@ CREATE TABLE categoria_producto (
     nombre VARCHAR(100) NOT NULL
 );
 
--- 5) TABLA SERVICIO
+-- 5) TABLA ROL
+CREATE TABLE rol (
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+-- 6) TABLA USUARIO
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    telefono VARCHAR(20) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- 7) TABLA USUARIO_ROL
+CREATE TABLE usuario_rol (
+    id_usuario INT,
+    id_rol INT,
+    PRIMARY KEY (id_usuario, id_rol),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
+);
+
+-- 8) TABLA SERVICIO
 CREATE TABLE servicio (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -37,7 +62,7 @@ CREATE TABLE servicio (
     FOREIGN KEY (categoria_id) REFERENCES categoria_servicio(id)
 );
 
--- 6) TABLA PRODUCTO
+-- 9) TABLA PRODUCTO
 CREATE TABLE producto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
@@ -49,7 +74,7 @@ CREATE TABLE producto (
     FOREIGN KEY (categoria_id) REFERENCES categoria_producto(id)
 );
 
--- 7) TABLA PROMOCION
+-- 10) TABLA PROMOCION
 CREATE TABLE promocion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
@@ -57,47 +82,27 @@ CREATE TABLE promocion (
     descuento DECIMAL(5,2) NOT NULL
 );
 
--- 8) TABLA CITA (SERVICIOS DEL SALON)
+-- 11) TABLA CITA
 CREATE TABLE cita (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_cliente VARCHAR(100) NOT NULL,
+    codigo VARCHAR(20) UNIQUE,
+    usuario_id INT NOT NULL,
+    servicio_id INT NOT NULL,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    servicio_id INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario),
     FOREIGN KEY (servicio_id) REFERENCES servicio(id)
 );
 
--- 9) TABLA RESERVA (PRODUCTOS)
+-- 12) TABLA RESERVA
 CREATE TABLE reserva (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_cliente VARCHAR(100) NOT NULL,
+    codigo VARCHAR(20) UNIQUE,
+    usuario_id INT NOT NULL,
     producto_id INT NOT NULL,
     cantidad INT NOT NULL,
+    FOREIGN KEY (usuario_id) REFERENCES usuario(id_usuario),
     FOREIGN KEY (producto_id) REFERENCES producto(id)
-);
-
--- 10) TABLA ROL
-CREATE TABLE rol (
-    id_rol INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(50) NOT NULL
-);
-
--- 11) TABLA USUARIO
-CREATE TABLE usuario (
-    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
-    correo VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
-    activo BOOLEAN DEFAULT TRUE
-);
-
--- 12) TABLA USUARIO_ROL
-CREATE TABLE usuario_rol (
-    id_usuario INT,
-    id_rol INT,
-    PRIMARY KEY (id_usuario, id_rol),
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
-    FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
 );
 
 -- ROLES POR DEFECTO
@@ -106,15 +111,15 @@ INSERT INTO rol (nombre) VALUES
 ('ROLE_USER');
 
 -- USUARIO ADMIN
-INSERT INTO usuario (nombre, correo, password, activo) VALUES
-('Administrador', 'admin@flawless.com', '1234', TRUE);
+INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES
+('Administrador', 'admin@flawless.com', '88888888', '1234', TRUE);
 
 INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (1, 1);
 
 -- USUARIO CLIENTE
-INSERT INTO usuario (nombre, correo, password, activo) VALUES
-('Cliente Demo', 'cliente@flawless.com', '1234', TRUE);
+INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES
+('Cliente Demo', 'cliente@flawless.com', '88888888', '1234', TRUE);
 
 INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (2, 2);
@@ -159,9 +164,9 @@ INSERT INTO promocion (titulo, descripcion, descuento) VALUES
 ('Combo Maquillaje', '15% en maquillaje profesional', 15.00);
 
 -- CITAS DE PRUEBA
-INSERT INTO cita (nombre_cliente, fecha, hora, servicio_id) VALUES
-('Ana Rodriguez', '2026-03-10', '14:00:00', 1);
+INSERT INTO cita (codigo, usuario_id, servicio_id, fecha, hora) VALUES
+('CITA-00001', 2, 1, '2026-03-10', '14:00:00');
 
 -- RESERVAS DE PRODUCTOS
-INSERT INTO reserva (nombre_cliente, producto_id, cantidad) VALUES
-('Maria Lopez', 1, 2);
+INSERT INTO reserva (codigo, usuario_id, producto_id, cantidad) VALUES
+('RES-00001', 2, 1, 2);

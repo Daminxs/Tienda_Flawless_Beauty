@@ -22,6 +22,27 @@ import jakarta.validation.constraints.*;
 import java.io.Serializable;
 import lombok.Data;
 
+@Data
+@Entity
+@Table(name="reserva")
 public class FlawlessReserva implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
+    private String nombreCliente;
+
+    @NotNull
+    private Integer cantidad;
+
+    @ManyToOne
+    @JoinColumn(name="producto_id")
+    private FlawlessProducto producto;
 
 }

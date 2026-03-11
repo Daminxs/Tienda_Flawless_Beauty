@@ -17,6 +17,9 @@ package flawless.beauty.repository;
 // guardar citas, consultar citas existentes y buscar citas
 // asociadas a un correo específico.
 
-public interface FlawlessCitaRepository {
-    
+import flawless.beauty.domain.FlawlessCita;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FlawlessCitaRepository extends JpaRepository<FlawlessCita, Long> {
+
 }

@@ -34,9 +34,11 @@ public class FlawlessPerfilController {
 
         String nombre = (String) session.getAttribute("nombre");
         String correo = (String) session.getAttribute("correo");
+        String telefono = (String) session.getAttribute("telefono");
 
         model.addAttribute("nombre", nombre);
         model.addAttribute("correo", correo);
+        model.addAttribute("telefono", telefono);
 
         return "perfil";
     }
