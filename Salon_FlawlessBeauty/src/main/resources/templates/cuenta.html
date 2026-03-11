@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<!--
+    Encargado para Daniela
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
+    <body>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <main class="container mt-5">
+
+            <div class="row justify-content-center">
+
+                <div class="col-md-6 text-center">
+
+                    <h2 class="mb-4">Cuenta</h2>
+
+                    <div class="d-grid gap-3">
+
+                        <a th:href="@{/login}" class="btn btn-outline-danger btn-lg">
+                            Iniciar sesión
+                        </a>
+
+                        <a th:href="@{/registro}" class="btn btn-outline-secondary btn-lg">
+                            Registrar cuenta
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
+</html>

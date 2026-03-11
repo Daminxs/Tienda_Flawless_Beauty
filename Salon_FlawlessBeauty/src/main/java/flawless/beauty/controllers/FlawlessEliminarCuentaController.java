@@ -9,17 +9,23 @@ package flawless.beauty.controllers;
  * Encargado para: Damian Perez
  */
 
-// 
+//
+
+//
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
-public class FlawlessCuentaController {
+public class FlawlessEliminarCuentaController {
 
-    @GetMapping("/cuenta")
-    public String cuenta() {
-        return "cuenta";
+    @PostMapping("/eliminarCuenta")
+    public String eliminarCuenta(){
+
+
+        System.out.println("Cuenta eliminada (simulación)");
+
+        return "redirect:/";
     }
 
 }

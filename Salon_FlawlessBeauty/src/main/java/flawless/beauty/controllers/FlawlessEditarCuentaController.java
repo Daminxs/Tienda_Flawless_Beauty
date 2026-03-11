@@ -9,17 +9,17 @@ package flawless.beauty.controllers;
  * Encargado para: Damian Perez
  */
 
-// 
+//
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class FlawlessCuentaController {
+public class FlawlessEditarCuentaController {
 
-    @GetMapping("/cuenta")
-    public String cuenta() {
-        return "cuenta";
+    @GetMapping("/editarCuenta")
+    public String editarCuenta(){
+        return "editarCuenta";
     }
 
 }

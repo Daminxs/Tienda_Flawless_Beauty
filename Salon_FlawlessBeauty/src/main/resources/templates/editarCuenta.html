@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--
+    Encargado para Damian
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="general/fragmentos :: head"></head>
+
+<body>
+
+<header th:replace="general/fragmentos :: header"></header>
+
+<main class="container mt-5">
+
+<div class="row justify-content-center">
+
+<div class="col-md-6">
+
+<div class="card shadow p-4">
+
+<h2 class="text-center mb-4">Editar Cuenta</h2>
+
+<form>
+
+<div class="mb-3">
+<label class="form-label">Nombre</label>
+<input type="text" class="form-control" placeholder="Nuevo nombre">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Correo</label>
+<input type="email" class="form-control" placeholder="Nuevo correo">
+</div>
+
+<div class="mb-3">
+<label class="form-label">Contraseña</label>
+<input type="password" class="form-control" placeholder="Nueva contraseña">
+</div>
+
+<div class="d-grid gap-2">
+
+<button class="btn btn-outline-primary">
+Guardar cambios
+</button>
+
+<a th:href="@{/perfil}" class="btn btn-outline-secondary">
+Volver al perfil
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</main>
+
+<footer th:replace="general/fragmentos :: footer"></footer>
+
+</body>
+</html>

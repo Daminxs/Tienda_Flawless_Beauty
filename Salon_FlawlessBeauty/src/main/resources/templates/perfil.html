@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<!--
+    Encargado para Damian
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
+    <body>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <main class="container mt-5">
+
+            <div class="row justify-content-center">
+
+                <div class="col-md-6">
+
+                    <div class="card shadow p-4">
+
+                        <h2 class="text-center mb-4">Perfil de Cuenta</h2>
+
+                        <!-- Nombre -->
+                        <p>
+                            <strong>Nombre:</strong>
+                            <span th:text="${nombre}"></span>
+                        </p>
+
+                        <!-- Correo censurado -->
+                        <p>
+                            <strong>Correo:</strong>
+                            <span th:text="${#strings.substring(correo,0,3) + '***@***'}"></span>
+                        </p>
+
+                        <hr>
+
+                        <div class="d-grid gap-3">
+
+                            <a th:href="@{/editarCuenta}" class="btn btn-outline-primary">
+                                Editar cuenta
+                            </a>
+
+                            <form th:action="@{/eliminarCuenta}" method="post">
+
+                                <button class="btn btn-outline-danger w-100"
+                                        onclick="return confirm('¿Seguro que desea eliminar su cuenta?')">
+                                    Eliminar cuenta
+                                </button>
+
+                            </form>
+
+                            <a th:href="@{/cerrarSesion}" class="btn btn-outline-secondary">
+                                Cerrar sesión
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
+</html>
