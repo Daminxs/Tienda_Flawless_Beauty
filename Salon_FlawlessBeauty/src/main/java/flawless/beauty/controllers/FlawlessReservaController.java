@@ -17,6 +17,6 @@ package flawless.beauty.controllers;
 // Guardar en la base de datos la información de la reserva realizada por el usuario.
 // Registrar datos como el usuario, el producto seleccionado y la fecha de la reserva.
 
-public class FlawlessReservaProductoController {
+public class FlawlessReservaController {
     
 }

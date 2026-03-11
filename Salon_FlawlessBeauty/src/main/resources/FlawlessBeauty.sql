@@ -15,13 +15,13 @@ FLUSH PRIVILEGES;
 
 USE flawless_beauty;
 
--- 3) TABLA CATEGORIA (Servicios)
+-- 3) TABLA CATEGORIA SERVICIO
 CREATE TABLE categoria_servicio (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
 
--- 4) TABLA CATEGORIA (Productos)
+-- 4) TABLA CATEGORIA PRODUCTO
 CREATE TABLE categoria_producto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
@@ -57,8 +57,8 @@ CREATE TABLE promocion (
     descuento DECIMAL(5,2) NOT NULL
 );
 
--- 8) TABLA RESERVA SERVICIO
-CREATE TABLE reserva_servicio (
+-- 8) TABLA CITA (SERVICIOS DEL SALON)
+CREATE TABLE cita (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_cliente VARCHAR(100) NOT NULL,
     fecha DATE NOT NULL,
@@ -67,8 +67,8 @@ CREATE TABLE reserva_servicio (
     FOREIGN KEY (servicio_id) REFERENCES servicio(id)
 );
 
--- 9) TABLA RESERVA PRODUCTO
-CREATE TABLE reserva_producto (
+-- 9) TABLA RESERVA (PRODUCTOS)
+CREATE TABLE reserva (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_cliente VARCHAR(100) NOT NULL,
     producto_id INT NOT NULL,
@@ -100,33 +100,33 @@ CREATE TABLE usuario_rol (
     FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
 );
 
--- Roles por defecto
+-- ROLES POR DEFECTO
 INSERT INTO rol (nombre) VALUES
 ('ROLE_ADMIN'),
 ('ROLE_USER');
 
--- Datos de prueba
-
--- Usuario ADMIN
+-- USUARIO ADMIN
 INSERT INTO usuario (nombre, correo, password, activo) VALUES
 ('Administrador', 'admin@flawless.com', '1234', TRUE);
 
 INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (1, 1);
 
--- Usuario CLIENTE
+-- USUARIO CLIENTE
 INSERT INTO usuario (nombre, correo, password, activo) VALUES
 ('Cliente Demo', 'cliente@flawless.com', '1234', TRUE);
 
 INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (2, 2);
 
+-- CATEGORIAS SERVICIO
 INSERT INTO categoria_servicio (nombre) VALUES
 ('Uñas'),
 ('Pestañas'),
 ('Cejas'),
 ('Maquillaje');
 
+-- CATEGORIAS PRODUCTO
 INSERT INTO categoria_producto (nombre) VALUES
 ('Labiales'),
 ('Collares'),
@@ -139,29 +139,29 @@ INSERT INTO categoria_producto (nombre) VALUES
 ('Delineadores'),
 ('Rubores');
 
--- Servicios
+-- SERVICIOS
 INSERT INTO servicio (nombre, descripcion, precio, categoria_id) VALUES
-('Manicure Tradicional', 'Limpieza y esmalte básico', 6000.00, 1),
-('Extensión de Pestañas', 'Efecto natural', 25000.00, 2),
+('Manicure Tradicional', 'Limpieza y esmalte basico', 6000.00, 1),
+('Extension de Pestañas', 'Efecto natural', 25000.00, 2),
 ('Diseño de Cejas', 'Perfilado profesional', 8000.00, 3),
 ('Maquillaje Profesional', 'Para eventos especiales', 30000.00, 4);
 
--- Productos
+-- PRODUCTOS
 INSERT INTO producto (nombre, descripcion, precio, stock, categoria_id) VALUES
 ('Labial Matte Rojo', 'Color rojo intenso', 5000, 20, 1),
 ('Collar Dorado', 'Collar elegante', 15000, 10, 2),
 ('Anillo Plata', 'Anillo minimalista', 12000, 15, 3),
 ('Mascarilla Facial', 'Mascarilla hidratante', 7000, 30, 4);
 
--- Promociones
+-- PROMOCIONES
 INSERT INTO promocion (titulo, descripcion, descuento) VALUES
 ('Promo Manicure', '10% de descuento en manicure', 10.00),
 ('Combo Maquillaje', '15% en maquillaje profesional', 15.00);
 
--- Reservas de servicio
-INSERT INTO reserva_servicio (nombre_cliente, fecha, hora, servicio_id) VALUES
-('Ana Rodríguez', '2026-03-10', '14:00:00', 1);
+-- CITAS DE PRUEBA
+INSERT INTO cita (nombre_cliente, fecha, hora, servicio_id) VALUES
+('Ana Rodriguez', '2026-03-10', '14:00:00', 1);
 
--- Reservas de producto
-INSERT INTO reserva_producto (nombre_cliente, producto_id, cantidad) VALUES
-('María López', 1, 2);
+-- RESERVAS DE PRODUCTOS
+INSERT INTO reserva (nombre_cliente, producto_id, cantidad) VALUES
+('Maria Lopez', 1, 2);

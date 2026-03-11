@@ -9,6 +9,7 @@ package flawless.beauty.domain;
  * Encargado para: Damian Perez
  */
 
+
 // Esta clase debe hacer lo siguiente:
 
 // Esta clase representa una cita dentro del sistema Flawless Beauty.

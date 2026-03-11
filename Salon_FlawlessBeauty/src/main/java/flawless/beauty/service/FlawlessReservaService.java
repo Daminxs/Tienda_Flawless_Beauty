@@ -16,6 +16,6 @@ package flawless.beauty.service;
 // Utilizar el repository de ReservaProducto para guardar la información en la base de datos.
 // Servir como intermediario entre el controller y el repository para gestionar las reservas de productos.
 
-public class FlawlessReservaProductoService {
+public class FlawlessReservaService {
     
 }

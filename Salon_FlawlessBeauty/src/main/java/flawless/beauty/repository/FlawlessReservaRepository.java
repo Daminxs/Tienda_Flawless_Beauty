@@ -16,9 +16,9 @@ package flawless.beauty.repository;
 // Permite guardar y consultar las reservas de productos realizadas por los usuarios.
 // Es utilizada por la capa de servicios para gestionar las reservas de productos.
 
-import flawless.beauty.domain.FlawlessReservaProducto;
+import flawless.beauty.domain.FlawlessReserva;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface FlawlessReservaProductoRepository extends JpaRepository<FlawlessReservaProducto, Long> {
+public interface FlawlessReservaRepository extends JpaRepository<FlawlessReserva, Long> {
 
 }

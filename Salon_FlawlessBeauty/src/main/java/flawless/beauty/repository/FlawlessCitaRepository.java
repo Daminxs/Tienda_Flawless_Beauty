@@ -9,6 +9,7 @@ package flawless.beauty.repository;
  * Encargado para: Damian Perez
  */
 
+
 // Esta clase debe hacer lo siguiente:
 
 // Esta interfaz se encarga de gestionar el acceso a la base de datos

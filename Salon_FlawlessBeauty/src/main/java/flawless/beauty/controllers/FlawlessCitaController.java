@@ -19,6 +19,7 @@ package flawless.beauty.controllers;
 // Mostrar al usuario sus citas registradas.
 // Permitir visualizar las reservas existentes.
 
+
 public class FlawlessCitaController {
     
 }
