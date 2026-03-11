@@ -28,14 +28,15 @@ public class FlawlessPerfilController {
     @GetMapping("/perfil")
     public String perfil(HttpSession session, Model model) {
 
-        String usuario = (String) session.getAttribute("usuario");
-
-        if (session.getAttribute("usuario") == null) {
+        if (session.getAttribute("correo") == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("nombre", usuario);
-        model.addAttribute("correo", usuario);
+        String nombre = (String) session.getAttribute("nombre");
+        String correo = (String) session.getAttribute("correo");
+
+        model.addAttribute("nombre", nombre);
+        model.addAttribute("correo", correo);
 
         return "perfil";
     }

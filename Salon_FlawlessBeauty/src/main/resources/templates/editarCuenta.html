@@ -2,65 +2,77 @@
 <!--
     Encargado para Damian
 -->
-<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="general/fragmentos :: head"></head>
+    <head th:replace="general/fragmentos :: head"></head>
 
-<body>
+    <body>
 
-<header th:replace="general/fragmentos :: header"></header>
+        <header th:replace="general/fragmentos :: header"></header>
 
-<main class="container mt-5">
+        <main class="container mt-5">
 
-<div class="row justify-content-center">
+            <div class="row justify-content-center">
 
-<div class="col-md-6">
+                <div class="col-md-6">
 
-<div class="card shadow p-4">
+                    <div class="card shadow p-4">
 
-<h2 class="text-center mb-4">Editar Cuenta</h2>
+                        <h2 class="text-center mb-4">Editar Cuenta</h2>
 
-<form>
+                        <form th:action="@{/editarCuenta}"
+                              th:object="${usuario}"
+                              method="post">
 
-<div class="mb-3">
-<label class="form-label">Nombre</label>
-<input type="text" class="form-control" placeholder="Nuevo nombre">
-</div>
+                            <!-- ID oculto para actualizar -->
+                            <input type="hidden" th:field="*{idUsuario}">
 
-<div class="mb-3">
-<label class="form-label">Correo</label>
-<input type="email" class="form-control" placeholder="Nuevo correo">
-</div>
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text"
+                                       class="form-control"
+                                       th:field="*{nombre}">
+                            </div>
 
-<div class="mb-3">
-<label class="form-label">Contraseña</label>
-<input type="password" class="form-control" placeholder="Nueva contraseña">
-</div>
+                            <div class="mb-3">
+                                <label class="form-label">Correo</label>
+                                <input type="email"
+                                       class="form-control"
+                                       th:field="*{correo}">
+                            </div>
 
-<div class="d-grid gap-2">
+                            <div class="mb-3">
+                                <label class="form-label">Contraseña</label>
+                                <input type="password"
+                                       class="form-control"
+                                       th:field="*{password}">
+                            </div>
 
-<button class="btn btn-outline-primary">
-Guardar cambios
-</button>
+                            <div class="d-grid gap-2">
 
-<a th:href="@{/perfil}" class="btn btn-outline-secondary">
-Volver al perfil
-</a>
+                                <button type="submit"
+                                        class="btn btn-outline-primary">
+                                    Guardar cambios
+                                </button>
 
-</div>
+                                <a th:href="@{/perfil}"
+                                   class="btn btn-outline-secondary">
+                                    Volver al perfil
+                                </a>
 
-</form>
+                            </div>
 
-</div>
+                        </form>
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
-</main>
+            </div>
 
-<footer th:replace="general/fragmentos :: footer"></footer>
+        </main>
 
-</body>
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
 </html>
