@@ -1,7 +1,7 @@
 Proyecto en grupo: G6_Desarrollo Web
 
 Integrantes: 
-Damián Pérez Mora 
+- Damián Pérez Mora 
 - Monica García García 
 - Alberto Jose Ulate Velasquez 
 - Daniela Pérez Navarro
