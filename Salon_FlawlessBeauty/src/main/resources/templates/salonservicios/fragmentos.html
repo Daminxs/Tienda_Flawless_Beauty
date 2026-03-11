@@ -58,7 +58,7 @@
                                         ₡ <span th:text="${servicio.precio}"></span>
                                     </p>
 
-                                    <a th:href="@{/agendarCita}"
+                                    <a th:href="@{/agendarCita(id=${servicio.id})}"
                                        class="btn btn-outline-primary btn-sm">
                                         Agendar cita
                                     </a>

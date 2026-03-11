@@ -2,13 +2,63 @@
 <!--
     Encargado para Daniela
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
     <body>
-        <div>TODO write content</div>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <main class="container mt-5">
+
+            <div class="row justify-content-center">
+
+                <div class="col-md-5">
+
+                    <div class="card shadow p-4">
+
+                        <h3 class="text-center mb-4">Iniciar Sesión</h3>
+                        
+                        <p th:if="${error}" style="color:red; text-align:center;">
+                            <span th:text="${error}"></span>
+                        </p>
+
+                        <form th:action="@{/login}" method="post">
+
+                            <div class="mb-3">
+                                <label class="form-label">Correo</label>
+                                <input type="email"
+                                       name="correo"
+                                       class="form-control"
+                                       placeholder="Ingrese su correo">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Contraseña</label>
+                                <input type="password"
+                                       name="password"
+                                       class="form-control"
+                                       placeholder="Ingrese su contraseña">
+                            </div>
+
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-outline-danger">
+                                    Iniciar Sesión
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
     </body>
 </html>

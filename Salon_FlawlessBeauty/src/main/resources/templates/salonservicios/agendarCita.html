@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+    Encargado para Damian
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
+    <body>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <div class="container mt-5">
+
+            <h3>
+                Servicio: <span th:text="${servicio.nombre}"></span>
+            </h3>
+
+            <p>
+                Precio: ₡<span th:text="${servicio.precio}"></span>
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>Nombre:</strong>
+                <span th:text="${usuario.nombre}"></span>
+            </p>
+
+            <p>
+                <strong>Teléfono:</strong>
+                <span th:text="${usuario.telefono}"></span>
+            </p>
+
+            <form th:action="@{/guardarCita}" method="post">
+
+                <input type="hidden" name="servicioId" th:value="${servicio.id}">
+                <input type="hidden" name="nombreCliente" th:value="${usuario.nombre}">
+
+                <label class="form-label">Fecha</label>
+                <input type="date" name="fecha" class="form-control" required>
+
+                <label class="mt-3">Hora disponible</label>
+
+                <div>
+                    <input type="radio" name="hora" value="10:00"> 10:00
+                </div>
+
+                <div>
+                    <input type="radio" name="hora" value="11:00"> 11:00
+                </div>
+
+                <div>
+                    <input type="radio" name="hora" value="12:00"> 12:00
+                </div>
+
+                <div>
+                    <input type="radio" name="hora" value="14:00"> 14:00
+                </div>
+
+                <div>
+                    <input type="radio" name="hora" value="15:00"> 15:00
+                </div>
+
+                <br>
+
+                <button class="btn btn-success">
+                    Agendar Cita
+                </button>
+
+                <a th:href="@{/salonservicios}" class="btn btn-secondary">
+                    Regresar
+                </a>
+
+            </form>
+
+        </div>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
+</html>
