@@ -18,5 +18,5 @@ package flawless.beauty.controllers;
 // Permitir mostrar información del salón como teléfono, correo o ubicación.
 
 public class FlawlessContactoController {
-    
+
 }

@@ -36,24 +36,29 @@
 
                         <div class="d-grid gap-3">
 
-                            <a th:href="@{/editarCuenta}" class="btn btn-outline-primary">
+                            <a th:href="@{/editarCuenta}" class="btn"
+                               style="border:2px solid #b76e79; color:#b76e79;">
                                 Editar cuenta
                             </a>
 
                             <form th:action="@{/eliminarCuenta}" method="post">
 
-                                <button class="btn btn-outline-danger w-100"
+                                <button class="btn w-100"
+                                        style="border:2px solid #b76e79; color:#b76e79;"
                                         onclick="return confirm('¿Seguro que desea eliminar su cuenta?')">
                                     Eliminar cuenta
                                 </button>
 
                             </form>
 
-                            <a th:href="@{/cerrarSesion}" class="btn btn-outline-secondary">
-                                Cerrar sesión
-                            </a>
+                            <div class="mt-4 d-grid">
 
-                        </div>
+                                <a th:href="@{/cerrarSesion}"
+                                   class="btn btn-outline-dark">
+                                    Cerrar Sesión
+                                </a>
+
+                            </div>
 
                     </div>
 

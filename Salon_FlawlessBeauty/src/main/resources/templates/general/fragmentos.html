@@ -127,14 +127,18 @@
                             <i class="bi bi-calendar-plus fs-5"></i>
                         </a>
 
-                        <a th:href="@{/perfil}" title="Perfil">
+                        <a th:href="@{/perfil}"
+                           title="Perfil"
+                           th:if="${session.usuario != null}">
                             <i class="bi bi-person-circle fs-5"></i>
                         </a>
 
-                        <a th:href="@{/cuenta}" class="btn btn-outline-secondary btn-sm">
+                        <a th:href="@{/login}"
+                           class="btn btn-outline-secondary btn-sm"
+                           th:if="${session.usuario == null}">
                             Cuenta
                         </a>
-
+                        
                     </div>
 
                 </div>

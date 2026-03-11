@@ -9,9 +9,14 @@ package flawless.beauty.controllers;
  * Encargado para: Damian Perez
  */
 
-//
+// Esta clase debe hacer lo siguiente:
 
-import flawless.beauty.domain.FlawlessUsuario;
+// Controlar el apartado de perfil del usuario dentro del sistema.
+// Verificar si existe una sesión activa antes de mostrar el perfil.
+// Obtener la información del usuario almacenada en la sesión.
+// Enviar los datos del usuario a la vista para mostrarlos en la página.
+// Evitar que usuarios sin sesión accedan al perfil redirigiéndolos al login.
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +28,14 @@ public class FlawlessPerfilController {
     @GetMapping("/perfil")
     public String perfil(HttpSession session, Model model) {
 
-        FlawlessUsuario usuario = (FlawlessUsuario) session.getAttribute("usuario");
+        String usuario = (String) session.getAttribute("usuario");
 
-        // Si no hay usuario en sesión, redirigir al login
-        if (usuario == null) {
+        if (session.getAttribute("usuario") == null) {
             return "redirect:/login";
         }
 
-        model.addAttribute("nombre", usuario.getNombre());
-        model.addAttribute("correo", usuario.getCorreo());
+        model.addAttribute("nombre", usuario);
+        model.addAttribute("correo", usuario);
 
         return "perfil";
     }
