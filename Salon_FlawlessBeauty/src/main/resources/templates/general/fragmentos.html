@@ -61,6 +61,15 @@
         color:#b76e79;
         }
         
+        /* iconos */
+        header i{
+            color:#b76e79;
+        }
+
+        header i:hover{
+            color:#d98ea3;
+        }
+        
         </style>
 
     </head>
@@ -129,13 +138,13 @@
 
                         <a th:href="@{/perfil}"
                            title="Perfil"
-                           th:if="${session.usuario != null}">
+                           th:if="${session.correo != null}">
                             <i class="bi bi-person-circle fs-5"></i>
                         </a>
 
                         <a th:href="@{/cuenta}"
                            class="btn btn-outline-secondary btn-sm"
-                           th:if="${session.usuario == null}">
+                           th:if="${session.correo == null}">
                             Cuenta
                         </a>
                         
