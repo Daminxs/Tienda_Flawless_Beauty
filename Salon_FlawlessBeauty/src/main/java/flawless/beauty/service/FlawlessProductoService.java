@@ -16,6 +16,37 @@ package flawless.beauty.service;
 // Utilizar el repository de Producto para acceder a la base de datos.
 // Servir como intermediario entre el controller y el repository cuando se trabaja con productos.
 
+import flawless.beauty.domain.FlawlessProducto;
+import flawless.beauty.repository.FlawlessProductoRepository;
+import java.util.List;
+import org.springframework.stereotype.Service;
+
+@Service
 public class FlawlessProductoService {
-    
+
+    private final FlawlessProductoRepository productoRepository;
+
+    public FlawlessProductoService(FlawlessProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
+
+    public List<FlawlessProducto> getProductos() {
+        return productoRepository.findAll();
+    }
+
+    public List<FlawlessProducto> getProductosPorCategoria(Long categoriaId) {
+        return productoRepository.findByCategoriaId(categoriaId);
+    }
+
+    public FlawlessProducto getProducto(Long id) {
+        return productoRepository.findById(id).orElse(null);
+    }
+
+    public void save(FlawlessProducto producto) {
+        productoRepository.save(producto);
+    }
+
+    public void delete(Long id) {
+        productoRepository.deleteById(id);
+    }
 }

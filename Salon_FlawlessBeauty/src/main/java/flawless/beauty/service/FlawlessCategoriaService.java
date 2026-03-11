@@ -37,6 +37,18 @@ public class FlawlessCategoriaService {
         return categoriaRepository.findAll();
     }
 
+    // Categorías para SERVICIOS
+    @Transactional(readOnly = true)
+    public List<FlawlessCategoria> getCategoriasServicios() {
+        return categoriaRepository.getCategoriasServicios();
+    }
+
+    // Categorías para PRODUCTOS
+    @Transactional(readOnly = true)
+    public List<FlawlessCategoria> getCategoriasProductos() {
+        return categoriaRepository.getCategoriasProductos();
+    }
+
     @Transactional(readOnly = true)
     public Optional<FlawlessCategoria> getCategoria(Long id) {
         return categoriaRepository.findById(id);
@@ -51,5 +63,5 @@ public class FlawlessCategoriaService {
     public void delete(Long id) {
         categoriaRepository.deleteById(id);
     }
-
+    
 }
