@@ -6,7 +6,7 @@ package flawless.beauty.repository;
 
 /**
  *
- * Encargado para: Daniela Navarro
+ * Encargado para: Damian Perez
  */
 
 // Esta interfaz debe hacer lo siguiente:
@@ -16,6 +16,15 @@ package flawless.beauty.repository;
 // Permite consultar, guardar o actualizar la información de los usuarios registrados.
 // Es utilizada por la capa de servicios para gestionar el acceso y registro de usuarios.
 
-public interface FlawlessUsuarioRepository {
-    
+import flawless.beauty.domain.FlawlessUsuario;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface FlawlessUsuarioRepository extends JpaRepository<FlawlessUsuario, Long> {
+
+    FlawlessUsuario findByCorreo(String correo);
+
+    boolean existsByCorreo(String correo);
+
 }
