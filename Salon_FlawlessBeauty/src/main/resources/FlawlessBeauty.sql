@@ -76,6 +76,35 @@ CREATE TABLE reserva_producto (
     FOREIGN KEY (producto_id) REFERENCES producto(id)
 );
 
+-- 10) TABLA ROL
+CREATE TABLE rol (
+    id_rol INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL
+);
+
+-- 11) TABLA USUARIO
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    activo BOOLEAN DEFAULT TRUE
+);
+
+-- 12) TABLA USUARIO_ROL
+CREATE TABLE usuario_rol (
+    id_usuario INT,
+    id_rol INT,
+    PRIMARY KEY (id_usuario, id_rol),
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario),
+    FOREIGN KEY (id_rol) REFERENCES rol(id_rol)
+);
+
+-- Roles por defecto
+INSERT INTO rol (nombre) VALUES
+('ROLE_ADMIN'),
+('ROLE_USER');
+
 -- Datos de prueba
 
 INSERT INTO categoria_servicio (nombre) VALUES
