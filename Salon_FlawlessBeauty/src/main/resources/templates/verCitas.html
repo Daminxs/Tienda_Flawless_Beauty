@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
+    <body>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <div class="container mt-5">
+
+            <h3>Mis Citas</h3>
+
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Servicio</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="c : ${citas}">
+                        <td th:text="${c.usuario.nombre}"></td>
+                        <td th:text="${c.servicio.nombre}"></td>
+                        <td th:text="${c.fecha}"></td>
+                        <td th:text="${c.hora}"></td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+    </body>
+</html>

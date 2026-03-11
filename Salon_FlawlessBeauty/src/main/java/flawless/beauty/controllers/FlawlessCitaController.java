@@ -32,6 +32,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.UUID;
 
 @Controller
 public class FlawlessCitaController {
@@ -48,15 +49,23 @@ public class FlawlessCitaController {
     @GetMapping("/agendarCita")
     public String agendarCita(@RequestParam Long id, HttpSession session, Model model) {
 
-        if (session.getAttribute("correo") == null) {
-            model.addAttribute("mensaje", "Debes iniciar sesión para agendar una cita");
+        String correo = (String) session.getAttribute("correo");
+        if (correo == null) {
+            model.addAttribute("error", "Debes iniciar sesión para agendar una cita");
             return "login";
         }
 
-        String correo = (String) session.getAttribute("correo");
         FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+        if (usuario == null) {
+            model.addAttribute("error", "Usuario no encontrado");
+            return "login";
+        }
 
         FlawlessServicio servicio = servicioRepository.findById(id).orElse(null);
+        if (servicio == null) {
+            model.addAttribute("error", "Servicio no encontrado");
+            return "perfil";
+        }
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("servicio", servicio);
@@ -68,21 +77,48 @@ public class FlawlessCitaController {
     public String guardarCita(
             @RequestParam Long servicioId,
             FlawlessCita cita,
-            HttpSession session) {
+            HttpSession session,
+            Model model) {
 
-        if (session.getAttribute("correo") == null) {
+        String correo = (String) session.getAttribute("correo");
+        if (correo == null) {
             return "redirect:/login";
         }
 
-        String nombre = (String) session.getAttribute("nombre");
-        cita.setNombreCliente(nombre);
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+        if (usuario == null) {
+            return "redirect:/login";
+        }
 
         FlawlessServicio servicio = servicioRepository.findById(servicioId).orElse(null);
+        if (servicio == null) {
+            model.addAttribute("mensaje", "Servicio no encontrado");
+            return "agendarCita";
+        }
+
+        cita.setUsuario(usuario);
         cita.setServicio(servicio);
+        cita.setCodigo(UUID.randomUUID().toString().substring(0, 8).toUpperCase());
 
         citaService.save(cita);
 
-        return "redirect:/perfil";
+        return "redirect:/verCitas";
     }
 
+    @GetMapping("/misCitas")
+    public String misCitas(HttpSession session, Model model) {
+
+        String correo = (String) session.getAttribute("correo");
+        if (correo == null) {
+            return "redirect:/login";
+        }
+
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("citas", citaService.findByUsuario(usuario));
+        return "misCitas";
+    }
 }

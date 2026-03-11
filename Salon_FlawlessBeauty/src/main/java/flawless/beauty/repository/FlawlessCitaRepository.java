@@ -18,8 +18,13 @@ package flawless.beauty.repository;
 // asociadas a un correo específico.
 
 import flawless.beauty.domain.FlawlessCita;
+import flawless.beauty.domain.FlawlessUsuario;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 public interface FlawlessCitaRepository extends JpaRepository<FlawlessCita, Long> {
+
+    // Esto devuelve solo las citas de un usuario específico
+    List<FlawlessCita> findByUsuario(FlawlessUsuario usuario);
 
 }

@@ -18,6 +18,7 @@ package flawless.beauty.service;
 // Utiliza el repository de citas para interactuar con la base de datos.
 
 import flawless.beauty.domain.FlawlessCita;
+import flawless.beauty.domain.FlawlessUsuario;
 import flawless.beauty.repository.FlawlessCitaRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,4 +46,7 @@ public class FlawlessCitaService {
         citaRepository.delete(cita);
     }
 
+    public List<FlawlessCita> findByUsuario(FlawlessUsuario usuario) {
+        return citaRepository.findByUsuario(usuario);
+    }
 }
