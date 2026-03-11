@@ -7,6 +7,7 @@ IDENTIFIED BY '123456';
 -- 2) CREAR BASE DE DATOS
 DROP DATABASE IF EXISTS flawless_beauty;
 CREATE DATABASE flawless_beauty;
+
 GRANT ALL PRIVILEGES ON flawless_beauty.*
 TO 'flawless_user'@'localhost';
 
@@ -15,31 +16,40 @@ FLUSH PRIVILEGES;
 USE flawless_beauty;
 
 -- 3) TABLA CATEGORIA (Servicios)
-CREATE TABLE categoria (
+CREATE TABLE categoria_servicio (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL
 );
 
--- 4) TABLA SERVICIO
+-- 4) TABLA CATEGORIA (Productos)
+CREATE TABLE categoria_producto (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL
+);
+
+-- 5) TABLA SERVICIO
 CREATE TABLE servicio (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(8,2) NOT NULL,
     categoria_id INT NOT NULL,
-    FOREIGN KEY (categoria_id) REFERENCES categoria(id)
+    FOREIGN KEY (categoria_id) REFERENCES categoria_servicio(id)
 );
 
--- 5) TABLA PRODUCTO
+-- 6) TABLA PRODUCTO
 CREATE TABLE producto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     descripcion TEXT,
     precio DECIMAL(8,2) NOT NULL,
-    stock INT NOT NULL
+    stock INT NOT NULL,
+    imagen VARCHAR(255),
+    categoria_id INT,
+    FOREIGN KEY (categoria_id) REFERENCES categoria_producto(id)
 );
 
--- 6) TABLA PROMOCION
+-- 7) TABLA PROMOCION
 CREATE TABLE promocion (
     id INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
@@ -47,7 +57,7 @@ CREATE TABLE promocion (
     descuento DECIMAL(5,2) NOT NULL
 );
 
--- 7) TABLA RESERVA SERVICIO
+-- 8) TABLA RESERVA SERVICIO
 CREATE TABLE reserva_servicio (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_cliente VARCHAR(100) NOT NULL,
@@ -57,7 +67,7 @@ CREATE TABLE reserva_servicio (
     FOREIGN KEY (servicio_id) REFERENCES servicio(id)
 );
 
--- 8) TABLA RESERVA PRODUCTO
+-- 9) TABLA RESERVA PRODUCTO
 CREATE TABLE reserva_producto (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre_cliente VARCHAR(100) NOT NULL,
@@ -66,13 +76,25 @@ CREATE TABLE reserva_producto (
     FOREIGN KEY (producto_id) REFERENCES producto(id)
 );
 
--- Datos de prueba para la tienda de Flawless Beauty
+-- Datos de prueba
 
-INSERT INTO categoria (nombre) VALUES
+INSERT INTO categoria_servicio (nombre) VALUES
 ('Uñas'),
 ('Pestañas'),
 ('Cejas'),
 ('Maquillaje');
+
+INSERT INTO categoria_producto (nombre) VALUES
+('Labiales'),
+('Collares'),
+('Anillos'),
+('Mascarillas'),
+('Aretes'),
+('Pulseras'),
+('Bases'),
+('Correctores'),
+('Delineadores'),
+('Rubores');
 
 -- Servicios
 INSERT INTO servicio (nombre, descripcion, precio, categoria_id) VALUES
@@ -82,9 +104,11 @@ INSERT INTO servicio (nombre, descripcion, precio, categoria_id) VALUES
 ('Maquillaje Profesional', 'Para eventos especiales', 30000.00, 4);
 
 -- Productos
-INSERT INTO producto (nombre, descripcion, precio, stock) VALUES
-('Labial Matte', 'Color rojo intenso', 5000.00, 20),
-('Collar Dorado', 'Joyería elegante', 15000.00, 10);
+INSERT INTO producto (nombre, descripcion, precio, stock, categoria_id) VALUES
+('Labial Matte Rojo', 'Color rojo intenso', 5000, 20, 1),
+('Collar Dorado', 'Collar elegante', 15000, 10, 2),
+('Anillo Plata', 'Anillo minimalista', 12000, 15, 3),
+('Mascarilla Facial', 'Mascarilla hidratante', 7000, 30, 4);
 
 -- Promociones
 INSERT INTO promocion (titulo, descripcion, descuento) VALUES
