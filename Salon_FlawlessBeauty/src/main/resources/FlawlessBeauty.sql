@@ -107,6 +107,9 @@ INSERT INTO rol (nombre) VALUES
 
 -- Datos de prueba
 
+INSERT INTO usuario (nombre, correo, contrasena, id_rol) VALUES
+('Administrador', 'admin@flawless.com', '1234', 1);
+
 INSERT INTO categoria_servicio (nombre) VALUES
 ('Uñas'),
 ('Pestañas'),
