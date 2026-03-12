@@ -23,6 +23,33 @@
             </p>
 
         </section>
+        
+        <style>
+
+            .img-duena {
+                width: 100%;
+                max-width: 400px;
+                height: 400px;
+                object-fit: cover;
+                border-radius: 15px;
+                border: none;
+                background-color: transparent;
+            }
+            
+            .img-unas {
+                width: 100%;
+                max-width: 300px;
+                height: 300px;
+            }
+            
+            .img-joyeria {
+                width: 100%;
+                max-width: 300px;
+                height: 300px;
+            }
+            
+
+        </style>
 
 
         <section class="container mt-5 text-center">
@@ -31,19 +58,19 @@
 
             <div class="row">
 
-                <div class="col-md-6">
-
-                    <img th:src="@{/img/duena1.jpg}"
-                         class="img-fluid rounded shadow">
+                <div class="row justify-content-center"> <div class="col-md-6">
+                    <img th:src="@{/img/duena1.png}"
+                         class="img-duena" 
+                         alt="Anyelín Molina">
 
                     <h5 class="mt-3">Anyelín Molina</h5>
 
                 </div>
 
                 <div class="col-md-6">
-
-                    <img th:src="@{/img/duena2.jpg}"
-                         class="img-fluid rounded shadow">
+                    <img th:src="@{/img/duena2.png}"
+                         class="img-duena" 
+                         alt="Fernanda Molina">
 
                     <h5 class="mt-3">Fernanda Molina</h5>
 
@@ -65,7 +92,7 @@
                 <!-- categoria 1 -->
                 <div class="col-md-6">
 
-                    <img th:src="@{/img/unas.jpg}"
+                    <img th:src="@{/img/unas.png}"
                          class="img-fluid rounded shadow">
 
                     <h4 class="mt-3">Uñas, Cejas y Pestañas</h4>
@@ -76,7 +103,7 @@
                 <!-- categoria 2 -->
                 <div class="col-md-6">
 
-                    <img th:src="@{/img/joyeria.jpg}"
+                    <img th:src="@{/img/joyeria.jpeg}"
                          class="img-fluid rounded shadow">
 
                     <h4 class="mt-3">Joyería y Maquillaje</h4>
