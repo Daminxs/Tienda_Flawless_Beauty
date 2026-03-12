@@ -2,13 +2,59 @@
 <!--
     Encargado para Monica
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+    <header th:replace="~{general/fragmentos :: header}"></header>
+
+    <main class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow-sm" style="border: 2px solid #f3d6cf; border-radius: 15px;">
+                    <div class="card-body p-4">
+                        <h2 class="text-center mb-4" style="color: #b76e79; font-weight: bold;">Modificar Promoción</h2>
+                        
+                        <form th:action="@{/salonpromociones/guardar}" th:object="${flawlessPromocion}" method="POST">
+                            
+                            <input type="hidden" th:field="*{id}"/>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" style="color: #333;">Título de la Promoción</label>
+                                <input type="text" class="form-control" th:field="*{titulo}" 
+                                       placeholder="Ej: Promo Manicure" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" style="color: #333;">Descripción</label>
+                                <textarea class="form-control" th:field="*{descripcion}" rows="3" 
+                                          placeholder="Detalles de la oferta..."></textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label fw-bold" style="color: #333;">Porcentaje de Descuento (%)</label>
+                                <input type="number" class="form-control" th:field="*{descuento}" step="0.01" 
+                                       placeholder="Ej: 15.00">
+                            </div>
+
+                            <div class="d-grid gap-2 mt-4">
+                                <button type="submit" class="btn" 
+                                        style="background-color: #b76e79; color: white; border-radius: 10px; font-weight: bold;">
+                                    Actualizar Datos
+                                </button>
+                                <a th:href="@{/salonpromociones}" class="btn btn-outline-secondary" 
+                                   style="border-radius: 10px;">
+                                    Regresar al Listado
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
 </html>

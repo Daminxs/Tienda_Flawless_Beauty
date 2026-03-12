@@ -2,13 +2,44 @@
 <!--
     Encargado para Monica
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+<body>
+
+    <header th:replace="~{general/fragmentos :: header}"></header>
+
+    <main class="container mt-5">
+        <div class="text-center mb-5">
+            <h1 style="color: #b76e79; font-weight: bold;">¡Descubre lo que tenemos para ti!</h1>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4 mb-4" th:each="promo : ${promociones}">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <a href="https://www.instagram.com/flawless.beauty.cr/" target="_blank">
+                        <img th:src="@{/img/promo1.jpg}" class="card-img-top" 
+                             style="border-radius: 15px; width: 100%; height: auto;" alt="Promoción">
+                    </a>
+                    <div class="card-body text-center">
+                        <h5 style="color: #b76e79;" th:text="${promo.titulo}">Título</h5>
+                        <p class="text-muted small" th:text="${promo.descripcion}">Descripción</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-5 col-lg-4 mb-4" th:if="${#lists.isEmpty(promociones)}">
+                <div class="card border-0 shadow-sm" style="border-radius: 15px;">
+                    <a href="https://www.instagram.com/flawless.beauty.cr/" target="_blank">
+                        <img th:src="@{/img/promo_ejemplo.jpg}" class="card-img-top" 
+                             style="border-radius: 15px;" alt="Instagram">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
 </html>

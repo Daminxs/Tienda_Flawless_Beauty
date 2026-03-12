@@ -4,6 +4,9 @@
  */
 package flawless.beauty.domain;
 
+import jakarta.persistence.*;
+import lombok.Data;
+import java.io.Serializable;
 /**
  *
  * Encargado para: Monica Garcia
@@ -17,6 +20,16 @@ package flawless.beauty.domain;
 // Define atributos como id, título, descripción y descuento.
 // Permite mostrar las promociones que el usuario puede ver dentro del sitio web.
 
-public class FlawlessPromocion {
+@Data
+@Entity
+@Table(name="promocion")
+public class FlawlessPromocion implements Serializable {
+    private static final long serialVersionUID = 1L;
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String titulo;
+    private String descripcion;
+    private double descuento;
 }
