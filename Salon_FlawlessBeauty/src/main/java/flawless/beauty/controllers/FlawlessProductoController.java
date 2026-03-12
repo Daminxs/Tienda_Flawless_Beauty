@@ -18,6 +18,7 @@ package flawless.beauty.controllers;
 // Permitir que el usuario vea los productos y pueda seleccionar uno para realizar una reserva.
 
 import flawless.beauty.domain.FlawlessProducto;
+import flawless.beauty.domain.FlawlessCategoria;
 import flawless.beauty.service.FlawlessProductoService;
 import flawless.beauty.service.FlawlessCategoriaService;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
+@RequestMapping("/salonproductos")
 public class FlawlessProductoController {
 
     private final FlawlessProductoService productoService;
@@ -39,10 +41,11 @@ public class FlawlessProductoController {
         this.categoriaService = categoriaService;
     }
 
-    @GetMapping("/salonproductos")
+    @GetMapping
     public String listado(@RequestParam(required = false) Long categoria, Model model) {
 
-        var categorias = categoriaService.getCategoriasProductos();
+        List<FlawlessCategoria> categorias =
+                categoriaService.getCategoriasProductos();
 
         List<FlawlessProducto> productos;
 

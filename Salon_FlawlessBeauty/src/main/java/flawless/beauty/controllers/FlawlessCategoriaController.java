@@ -35,7 +35,9 @@ public class FlawlessCategoriaController {
 
     @GetMapping("/listado")
     public String listado(Model model) {
-        List<FlawlessCategoria> categorias = categoriaService.getCategorias();
+
+        List<FlawlessCategoria> categorias = categoriaService.getCategoriasProductos();
+
         model.addAttribute("categorias", categorias);
         return "saloncategorias/listado";
     }

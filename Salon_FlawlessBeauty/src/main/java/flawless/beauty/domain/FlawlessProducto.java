@@ -38,7 +38,7 @@ public class FlawlessProducto implements Serializable {
     @Column(nullable = false, length = 100)
     private String nombre;
 
-    @Size(max = 255)
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
 
     @NotNull

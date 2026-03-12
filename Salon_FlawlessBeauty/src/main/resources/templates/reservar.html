@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+    Encargado para Damian
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
+    <body>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <div class="container mt-5">
+
+            <h3>
+                Producto: <span th:text="${producto.nombre}"></span>
+            </h3>
+
+            <p>
+                Precio: ₡<span th:text="${producto.precio}"></span>
+            </p>
+
+            <hr>
+
+            <p>
+                <strong>Nombre:</strong>
+                <span th:text="${usuario.nombre}"></span>
+            </p>
+
+            <p>
+                <strong>Teléfono:</strong>
+                <span th:text="${usuario.telefono}"></span>
+            </p>
+
+            <form th:action="@{/guardarReserva}" method="post">
+
+                <input type="hidden" name="productoId" th:value="${producto.id}">
+                <input type="hidden" name="nombreCliente" th:value="${usuario.nombre}">
+
+                <label class="form-label">Cantidad</label>
+
+                <input type="number"
+                       name="cantidad"
+                       class="form-control"
+                       min="1"
+                       required>
+
+                <br>
+
+                <button class="btn btn-success">
+                    Reservar Producto
+                </button>
+
+                <a th:href="@{/salonproductos}" class="btn btn-secondary">
+                    Regresar
+                </a>
+
+            </form>
+
+        </div>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
+</html>

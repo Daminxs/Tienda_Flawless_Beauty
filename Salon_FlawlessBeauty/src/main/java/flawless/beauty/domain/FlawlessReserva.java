@@ -18,7 +18,7 @@ package flawless.beauty.domain;
 // Permite registrar cuando un usuario realiza una reserva de un producto.
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import lombok.Data;
 
@@ -33,13 +33,15 @@ public class FlawlessReserva implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Size(max = 100)
-    @Column(nullable = false, length = 100)
-    private String nombreCliente;
+    @Column(unique = true)
+    private String codigo;
 
     @NotNull
     private Integer cantidad;
+
+    @ManyToOne
+    @JoinColumn(name="usuario_id")
+    private FlawlessUsuario usuario;
 
     @ManyToOne
     @JoinColumn(name="producto_id")
