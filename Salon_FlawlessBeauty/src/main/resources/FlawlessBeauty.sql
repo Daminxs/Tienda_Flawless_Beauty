@@ -1,7 +1,6 @@
-
 -- 1) CREAR USUARIO
-DROP USER IF EXISTS 'flawless_user'@'localhost';
-CREATE USER 'flawless_user'@'localhost'
+DROP USER IF EXISTS 'flawless_user'@'%';
+CREATE USER 'flawless_user'@'%'
 IDENTIFIED BY '123456';
 
 -- 2) CREAR BASE DE DATOS
@@ -9,7 +8,7 @@ DROP DATABASE IF EXISTS flawless_beauty;
 CREATE DATABASE flawless_beauty;
 
 GRANT ALL PRIVILEGES ON flawless_beauty.*
-TO 'flawless_user'@'localhost';
+TO 'flawless_user'@'%';
 
 FLUSH PRIVILEGES;
 
