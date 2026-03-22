@@ -16,6 +16,7 @@ package flawless.beauty.controllers;
 // Mostrar las categorías disponibles para organizar los servicios y productos.
 // Permitir utilizar las categorías para clasificar los servicios y productos dentro del sistema.
 
+
 import flawless.beauty.domain.FlawlessCategoria;
 import flawless.beauty.service.FlawlessCategoriaService;
 import java.util.List;

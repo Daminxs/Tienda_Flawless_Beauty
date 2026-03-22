@@ -18,7 +18,7 @@
             <div class="col-md-5 col-lg-4 mb-4" th:each="promo : ${promociones}">
                 <div class="card border-0 shadow-sm" style="border-radius: 15px;">
                     <a href="https://www.instagram.com/flawless.beauty.cr/" target="_blank">
-                        <img th:src="@{/img/promo1.jpg}" class="card-img-top" 
+                        <img th:src="@{/img/promo1.png}" class="card-img-top" 
                              style="border-radius: 15px; width: 100%; height: auto;" alt="Promoción">
                     </a>
                     <div class="card-body text-center">
@@ -31,9 +31,10 @@
             <div class="col-md-5 col-lg-4 mb-4" th:if="${#lists.isEmpty(promociones)}">
                 <div class="card border-0 shadow-sm" style="border-radius: 15px;">
                     <a href="https://www.instagram.com/flawless.beauty.cr/" target="_blank">
-                        <img th:src="@{/img/promo_ejemplo.jpg}" class="card-img-top" 
+                        <img th:src="@{/img/promo_ejemplo.png}" class="card-img-top" 
                              style="border-radius: 15px;" alt="Instagram">
                     </a>
+                    
                 </div>
             </div>
         </div>
