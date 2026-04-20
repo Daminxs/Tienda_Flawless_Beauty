@@ -47,6 +47,7 @@
                             </div>
 
                             <div class="mb-3">
+
                                 <label class="form-label">Contraseña</label>
 
                                 <input type="password"
@@ -54,9 +55,15 @@
                                        class="form-control"
                                        placeholder="Ingrese su contraseña"
                                        required>
+
+                                <a th:href="@{/recuperar}"
+                                   style="font-size: 0.9rem; text-decoration: none;">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+
                             </div>
 
-                            <div class="d-grid">
+                            <div class="d-grid mt-3">
                                 <button type="submit"
                                         class="btn btn-outline-danger">
                                     Iniciar Sesión

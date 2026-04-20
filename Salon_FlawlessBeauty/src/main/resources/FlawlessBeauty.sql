@@ -105,6 +105,17 @@ CREATE TABLE reserva (
     FOREIGN KEY (producto_id) REFERENCES producto(id)
 );
 
+CREATE TABLE reset_password (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(255) NOT NULL UNIQUE,
+    usuario_id INT NOT NULL UNIQUE,
+    fecha_expiracion DATETIME NOT NULL,
+    
+    FOREIGN KEY (usuario_id) 
+        REFERENCES usuario(id_usuario)
+        ON DELETE CASCADE
+);
+
 -- ROLES POR DEFECTO
 INSERT INTO rol (nombre) VALUES
 ('ROLE_ADMIN'),

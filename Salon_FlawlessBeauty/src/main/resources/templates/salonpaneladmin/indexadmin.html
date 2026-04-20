@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
+    <body>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <main class="container mt-5">
+
+            <h2 class="text-center mb-4">Panel Administrativo</h2>
+
+            <div class="row">
+
+                <!-- IZQUIERDA: GESTION -->
+                <div class="col-md-6">
+                    <div class="card shadow p-4 h-100">
+
+                        <h4 class="text-center mb-3">Gestión</h4>
+
+                        <div class="d-grid gap-3">
+
+                            <a th:href="@{/admin/usuarios}" class="btn btn-outline-dark">
+                                Usuarios
+                            </a>
+
+                            <a th:href="@{/admin/productos}" class="btn btn-outline-dark">
+                                Productos
+                            </a>
+
+                            <a th:href="@{/admin/servicios}" class="btn btn-outline-dark">
+                                Servicios
+                            </a>
+
+                            <a th:href="@{/admin/categorias}" class="btn btn-outline-dark">
+                                Categorías
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- DERECHA: OPERACIONES -->
+                <div class="col-md-6">
+                    <div class="card shadow p-4 h-100">
+
+                        <h4 class="text-center mb-3">Operaciones</h4>
+
+                        <div class="d-grid gap-3">
+
+                            <a th:href="@{/admin/citas}" class="btn btn-outline-secondary">
+                                Ver Citas
+                            </a>
+
+                            <a th:href="@{/admin/reservas}" class="btn btn-outline-secondary">
+                                Ver Reservas
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ABAJO: ACCIONES RAPIDAS -->
+            <div class="row mt-4 justify-content-center">
+
+                <div class="col-md-8">
+                    <div class="card shadow p-4">
+
+                        <h4 class="text-center mb-3">Acciones rápidas</h4>
+
+                        <div class="d-flex flex-wrap justify-content-center gap-3">
+
+                            <a th:href="@{/admin/productos/nuevo}"
+                               class="btn"
+                               style="border:2px solid #b76e79; color:#b76e79;">
+                                + Producto
+                            </a>
+
+                            <a th:href="@{/admin/servicios/nuevo}"
+                               class="btn"
+                               style="border:2px solid #b76e79; color:#b76e79;">
+                                + Servicio
+                            </a>
+
+                            <a th:href="@{/admin/categorias/nuevo}"
+                               class="btn"
+                               style="border:2px solid #b76e79; color:#b76e79;">
+                                + Categoría
+                            </a>
+
+                            <a th:href="@{/admin/citas/nueva}"
+                               class="btn"
+                               style="border:2px solid #b76e79; color:#b76e79;">
+                                + Cita
+                            </a>
+
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </main>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
+</html>

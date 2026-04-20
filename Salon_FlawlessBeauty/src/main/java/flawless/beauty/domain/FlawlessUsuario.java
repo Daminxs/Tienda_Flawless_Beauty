@@ -31,20 +31,20 @@ public class FlawlessUsuario {
     @Column(name = "id_usuario")
     private Long idUsuario;
 
-    @Column(name = "nombre")
+    @Column(name = "nombre", nullable = false)
     private String nombre;
 
-    @Column(name = "correo")
+    @Column(name = "correo", nullable = false, unique = true)
     private String correo;
 
     @Column(name = "telefono")
     private String telefono;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "activo")
-    private boolean activo;
+    private boolean activo = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(

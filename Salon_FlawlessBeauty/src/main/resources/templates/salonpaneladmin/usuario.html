@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<!--
+    Encargado para Damian: Panel Admin - Usuarios
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+    <head th:replace="general/fragmentos :: head"></head>
+
+    <body>
+
+        <header th:replace="general/fragmentos :: header"></header>
+
+        <main class="container mt-5">
+
+            <h2 class="text-center mb-4">Gestión de Usuarios</h2>
+
+            <div class="card shadow p-4">
+
+                <div class="table-responsive">
+                    <table class="table align-middle text-center">
+
+                        <thead style="background:#f3d6cf;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Correo</th>
+                                <th>Teléfono</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr th:each="u : ${usuarios}">
+                                <td th:text="${u.idUsuario}"></td>
+                                <td th:text="${u.nombre}"></td>
+                                <td th:text="${u.correo}"></td>
+                                <td th:text="${u.telefono}"></td>
+
+                                <!-- Estado -->
+                                <td>
+                                    <span th:if="${u.activo}" class="badge bg-success">
+                                        Activo
+                                    </span>
+                                    <span th:if="${!u.activo}" class="badge bg-danger">
+                                        Inactivo
+                                    </span>
+                                </td>
+
+                                <!-- Acciones -->
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <a th:href="@{/admin/editarUsuario/{id}(id=${u.idUsuario})}"
+                                           class="btn btn-sm"
+                                           style="border:2px solid #b76e79; color:#b76e79;">
+                                            Editar
+                                        </a>
+
+                                        <a th:href="@{/admin/eliminarUsuario/{id}(id=${u.idUsuario})}"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('¿Eliminar usuario?')">
+                                            Eliminar
+                                        </a>
+
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+
+            <!-- Botón volver -->
+            <div class="text-center mt-4">
+                <a th:href="@{/admin}"
+                   class="btn btn-outline-dark">
+                    Volver al panel
+                </a>
+            </div>
+
+        </main>
+
+        <footer th:replace="general/fragmentos :: footer"></footer>
+
+    </body>
+</html>

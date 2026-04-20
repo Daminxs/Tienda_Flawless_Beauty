@@ -64,7 +64,7 @@ public class FlawlessSecurityConfig {
                     "/img/**"
                 ).permitAll()
 
-                .requestMatchers("/panel/**")
+                .requestMatchers("/admin/**")
                     .hasRole("ADMIN")
 
                 .requestMatchers(
