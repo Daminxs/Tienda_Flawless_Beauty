@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-    Encargado para Damian
+    Encargado para Damian: Fragmentos general
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <!-- HEAD -->
     <head th:fragment="head">
@@ -20,47 +21,57 @@
         
         <style>
 
+        html, body{
+            height:100%;
+            margin:0;
+        }
+
         /* fondo */
         body{
-        background:white;
-        font-family: Arial, Helvetica, sans-serif;
-        color:#333;
+            background:white;
+            font-family: Arial, Helvetica, sans-serif;
+            color:#333;
+
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
         }
 
         /* header */
         header{
-        background:white;
-        border-top:3px solid #f3d6cf;
-        border-bottom:3px solid #f3d6cf;
+            background:white;
+            border-top:3px solid #f3d6cf;
+            border-bottom:3px solid #f3d6cf;
         }
 
         /* footer */
         footer{
-        background:white;
-        border-top:3px solid #f3d6cf;
-        border-bottom:3px solid #f3d6cf;
+            background:white;
+            border-top:3px solid #f3d6cf;
+            border-bottom:3px solid #f3d6cf;
+            margin-top:auto;
         }
 
         /* navbar */
         .navbar-brand{
-        font-weight:bold;
-        color:#b76e79;
-        font-size:22px;
+            font-weight:bold;
+            color:#b76e79;
+            font-size:22px;
         }
 
         .nav-link{
-        color:#444;
+            color:#444;
         }
 
         .nav-link:hover{
-        color:#d98ea3;
+            color:#d98ea3;
         }
 
         /* titulos */
         h1,h2,h3{
-        color:#b76e79;
+            color:#b76e79;
         }
-        
+
         /* iconos */
         header i{
             color:#b76e79;
@@ -69,14 +80,20 @@
         header i:hover{
             color:#d98ea3;
         }
-        
-        .footer-logo {
-            width: 80px; 
-            height: auto;
-            margin: 10px auto;
-            filter: none;
+
+        /* logo footer */
+        .footer-logo{
+            width:80px;
+            height:auto;
+            margin:10px auto;
+            filter:none;
         }
-        
+
+        /* contenido principal */
+        main{
+            flex:1;
+        }
+
         </style>
 
     </head>
@@ -141,16 +158,16 @@
 
                         <a th:href="@{/perfil}"
                            title="Perfil"
-                           th:if="${session.correo != null}">
+                           sec:authorize="isAuthenticated()">
                             <i class="bi bi-person-circle fs-5"></i>
                         </a>
 
                         <a th:href="@{/cuenta}"
                            class="btn btn-outline-secondary btn-sm"
-                           th:if="${session.correo == null}">
+                           sec:authorize="isAnonymous()">
                             Cuenta
                         </a>
-                        
+
                     </div>
 
                 </div>

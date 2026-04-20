@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <!--
-    Encargado para Damian
+    Encargado para Damian: perfil.html
 -->
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
     <head th:replace="general/fragmentos :: head"></head>
 
@@ -39,13 +40,22 @@
 
                         <hr>
 
-                        <div class="d-grid gap-3">
+                            <div class="d-grid gap-3">                            
+                                
+                            <a th:href="@{/panel}"
+                                   sec:authorize="hasRole('ADMIN')"
+                                   class="btn"
+                                   style="border:2px solid #ffc107; color:#ffc107;">
+                                    Panel Administrador
+                                </a>
 
+                                
                             <a th:href="@{/editarCuenta}" class="btn"
                                style="border:2px solid #b76e79; color:#b76e79;">
                                 Editar cuenta
                             </a>
-
+                               
+                                
                             <form th:action="@{/eliminarCuenta}" method="post">
 
                                 <button class="btn w-100"
@@ -56,14 +66,14 @@
 
                             </form>
 
-                            <div class="mt-4 d-grid">
-
-                                <a th:href="@{/cerrarSesion}"
-                                   class="btn btn-outline-dark">
+                            <form th:action="@{/cerrarSesion}" method="post">
+                                <button type="submit"
+                                        class="btn btn-outline-dark w-100">
                                     Cerrar Sesión
-                                </a>
+                                </button>
+                            </form>
 
-                            </div>
+                        </div>
 
                     </div>
 

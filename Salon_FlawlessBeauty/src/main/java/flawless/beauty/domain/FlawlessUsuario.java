@@ -23,30 +23,34 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="usuario")
+@Table(name = "usuario")
 public class FlawlessUsuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="id_usuario")
+    @Column(name = "id_usuario")
     private Long idUsuario;
 
+    @Column(name = "nombre")
     private String nombre;
 
+    @Column(name = "correo")
     private String correo;
-    
+
+    @Column(name = "telefono")
     private String telefono;
 
+    @Column(name = "password")
     private String password;
 
+    @Column(name = "activo")
     private boolean activo;
 
-    @OneToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-        name="usuario_rol",
-        joinColumns=@JoinColumn(name="id_usuario"),
-        inverseJoinColumns=@JoinColumn(name="id_rol")
+        name = "usuario_rol",
+        joinColumns = @JoinColumn(name = "id_usuario"),
+        inverseJoinColumns = @JoinColumn(name = "id_rol")
     )
     private List<FlawlessRol> roles;
-
 }

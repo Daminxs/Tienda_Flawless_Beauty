@@ -1,6 +1,7 @@
+
 -- 1) CREAR USUARIO
-DROP USER IF EXISTS 'flawless_user'@'%';
-CREATE USER 'flawless_user'@'%'
+DROP USER IF EXISTS 'flawless_user'@'localhost';
+CREATE USER 'flawless_user'@'localhost'
 IDENTIFIED BY '123456';
 
 -- 2) CREAR BASE DE DATOS
@@ -8,7 +9,7 @@ DROP DATABASE IF EXISTS flawless_beauty;
 CREATE DATABASE flawless_beauty;
 
 GRANT ALL PRIVILEGES ON flawless_beauty.*
-TO 'flawless_user'@'%';
+TO 'flawless_user'@'localhost';
 
 FLUSH PRIVILEGES;
 
@@ -111,14 +112,18 @@ INSERT INTO rol (nombre) VALUES
 
 -- USUARIO ADMIN
 INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES
-('Administrador', 'admin@flawless.com', '88888888', '1234', TRUE);
+('Administrador', 'admin@flawless.com', '88888888',
+'$2a$10$KIXk1H0nR2fEMM0lP0W5pO8nKXu95syEHCqB6fRwGO6zkRgZNpmjS',
+TRUE);
 
 INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (1, 1);
 
 -- USUARIO CLIENTE
 INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES
-('Cliente Demo', 'cliente@flawless.com', '88888888', '1234', TRUE);
+('Cliente Demo', 'cliente@flawless.com', '88888888',
+'$2a$10$KIXk1H0nR2fEMM0lP0W5pO8nKXu95syEHCqB6fRwGO6zkRgZNpmjS',
+TRUE);
 
 INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (2, 2);
@@ -169,3 +174,13 @@ INSERT INTO cita (codigo, usuario_id, servicio_id, fecha, hora) VALUES
 -- RESERVAS DE PRODUCTOS
 INSERT INTO reserva (codigo, usuario_id, producto_id, cantidad) VALUES
 ('RES-00001', 2, 1, 2);
+
+USE flawless_beauty;
+
+UPDATE usuario
+SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa'
+WHERE correo='admin@flawless.com';
+
+UPDATE usuario
+SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa'
+WHERE correo='cliente@flawless.com';

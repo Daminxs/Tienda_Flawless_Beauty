@@ -17,7 +17,10 @@ package flawless.beauty.controllers;
 // Enviar los datos del usuario a la vista para mostrarlos en la página.
 // Evitar que usuarios sin sesión accedan al perfil redirigiéndolos al login.
 
-import jakarta.servlet.http.HttpSession;
+import flawless.beauty.domain.FlawlessUsuario;
+import flawless.beauty.repository.FlawlessUsuarioRepository;
+import java.security.Principal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,20 +28,28 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FlawlessPerfilController {
 
-    @GetMapping("/perfil")
-    public String perfil(HttpSession session, Model model) {
+    @Autowired
+    private FlawlessUsuarioRepository usuarioRepository;
 
-        if (session.getAttribute("correo") == null) {
+    @GetMapping("/perfil")
+    public String perfil(Principal principal, Model model) {
+
+        if (principal == null) {
             return "redirect:/login";
         }
 
-        String nombre = (String) session.getAttribute("nombre");
-        String correo = (String) session.getAttribute("correo");
-        String telefono = (String) session.getAttribute("telefono");
+        String correo = principal.getName();
 
-        model.addAttribute("nombre", nombre);
-        model.addAttribute("correo", correo);
-        model.addAttribute("telefono", telefono);
+        FlawlessUsuario usuario =
+                usuarioRepository.findByCorreo(correo);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("nombre", usuario.getNombre());
+        model.addAttribute("correo", usuario.getCorreo());
+        model.addAttribute("telefono", usuario.getTelefono());
 
         return "perfil";
     }
