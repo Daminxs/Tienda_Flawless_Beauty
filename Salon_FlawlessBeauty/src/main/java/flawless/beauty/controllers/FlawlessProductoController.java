@@ -87,7 +87,19 @@ public class FlawlessProductoController {
         }
 
         if (producto.getStock() < reserva.getCantidad()) {
+
             model.addAttribute("mensaje", "Stock insuficiente");
+
+            // Recargar datos para que la vista no falle
+            List<FlawlessCategoria> categorias =
+                    categoriaService.getCategorias()
+                            .stream()
+                            .filter(c -> "PRODUCTO".equals(c.getTipo()))
+                            .toList();
+
+            model.addAttribute("categorias", categorias);
+            model.addAttribute("productos", productoService.getProductos());
+
             return "salonproductos/listado";
         }
 
@@ -116,4 +128,5 @@ public class FlawlessProductoController {
 
         return "salonproductos/detalle";
     }
+    
 }

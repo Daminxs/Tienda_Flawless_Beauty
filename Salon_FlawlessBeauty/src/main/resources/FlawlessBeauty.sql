@@ -81,15 +81,6 @@ CREATE TABLE promocion (
     fecha_fin    DATE         NULL
 );
 
--- Si la tabla ya existe y necesitas agregar las columnas nuevas:
-ALTER TABLE promocion
-    ADD COLUMN IF NOT EXISTS imagen       VARCHAR(255) NULL,
-    ADD COLUMN IF NOT EXISTS activo       BOOLEAN      NOT NULL DEFAULT TRUE,
-    ADD COLUMN IF NOT EXISTS fecha_inicio DATE         NULL,
-    ADD COLUMN IF NOT EXISTS fecha_fin    DATE         NULL;
-
-UPDATE promocion SET activo = TRUE WHERE activo IS NULL;
-
 -- 10) TABLA CITA
 CREATE TABLE cita (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -127,10 +118,6 @@ CREATE TABLE reset_password (
 INSERT INTO categoria (nombre, tipo) VALUES
 ('Maquillajes', 'SERVICIO'),
 ('Labiales', 'PRODUCTO');
-
-INSERT INTO promocion (titulo, descripcion, descuento) VALUES
-('Promo Manicure', '10% de descuento en manicure', 10.00),
-('Combo Maquillaje', '15% en maquillaje profesional', 15.00);
 
 INSERT INTO rol (nombre) VALUES
 ('ROLE_ADMIN'),

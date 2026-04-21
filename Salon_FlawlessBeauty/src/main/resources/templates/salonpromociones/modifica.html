@@ -1,60 +1,95 @@
 <!DOCTYPE html>
 <!--
-    Encargado para Monica
+    Encargado para Monica: modifica.html (salonpromociones)
 -->
-<<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{general/fragmentos :: head}"></head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+    
+    <head th:replace="~{general/fragmentos :: head}"></head>
+    <body>
 
-    <header th:replace="~{general/fragmentos :: header}"></header>
+        <header th:replace="~{general/fragmentos :: header}"></header>
 
-    <main class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8 col-lg-6">
-                <div class="card shadow-sm" style="border: 2px solid #f3d6cf; border-radius: 15px;">
-                    <div class="card-body p-4">
-                        <h2 class="text-center mb-4" style="color: #b76e79; font-weight: bold;">Modificar Promoción</h2>
-                        
-                        <form th:action="@{/salonpromociones/guardar}" th:object="${flawlessPromocion}" method="POST">
-                            
-                            <input type="hidden" th:field="*{id}"/>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold" style="color: #333;">Título de la Promoción</label>
-                                <input type="text" class="form-control" th:field="*{titulo}" 
-                                       placeholder="Ej: Promo Manicure" required>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold" style="color: #333;">Descripción</label>
-                                <textarea class="form-control" th:field="*{descripcion}" rows="3" 
-                                          placeholder="Detalles de la oferta..."></textarea>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label fw-bold" style="color: #333;">Porcentaje de Descuento (%)</label>
-                                <input type="number" class="form-control" th:field="*{descuento}" step="0.01" 
-                                       placeholder="Ej: 15.00">
-                            </div>
+        <main class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-8 col-lg-6">
+                    <div class="card shadow-sm" style="border: 2px solid #f3d6cf; border-radius: 15px;">
+                        <div class="card-body p-4">
 
-                            <div class="d-grid gap-2 mt-4">
-                                <button type="submit" class="btn" 
-                                        style="background-color: #b76e79; color: white; border-radius: 10px; font-weight: bold;">
-                                    Actualizar Datos
-                                </button>
-                                <a th:href="@{/salonpromociones}" class="btn btn-outline-secondary" 
-                                   style="border-radius: 10px;">
-                                    Regresar al Listado
-                                </a>
-                            </div>
-                        </form>
+                            <h2 class="text-center mb-4" style="color: #b76e79; font-weight: bold;">
+                                Modificar Promoción
+                            </h2>
+
+                            <form th:action="@{/salonpromociones/guardar}" 
+                                  th:object="${flawlessPromocion}" 
+                                  method="POST">
+
+                                <input type="hidden" th:field="*{id}"/>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Título</label>
+                                    <input type="text" class="form-control"
+                                           th:field="*{titulo}" required>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Descripción</label>
+                                    <textarea class="form-control"
+                                              th:field="*{descripcion}" rows="3"></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Descuento (%)</label>
+                                    <input type="number" class="form-control"
+                                           th:field="*{descuento}" step="0.01">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Imagen (ruta)</label>
+                                    <input type="text" class="form-control"
+                                           th:field="*{imagen}" placeholder="/img/promos/ejemplo.png">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Fecha Inicio</label>
+                                    <input type="date" class="form-control"
+                                           th:field="*{fechaInicio}">
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Fecha Fin</label>
+                                    <input type="date" class="form-control"
+                                           th:field="*{fechaFin}">
+                                </div>
+
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           th:field="*{activo}">
+                                    <label class="form-check-label">Activa</label>
+                                </div>
+
+                                <div class="d-grid gap-2 mt-4">
+                                    <button type="submit" class="btn"
+                                            style="background-color: #b76e79; color: white; border-radius: 10px; font-weight: bold;">
+                                        Guardar
+                                    </button>
+
+                                    <a th:href="@{/salonpromociones}" 
+                                       class="btn btn-outline-secondary"
+                                       style="border-radius: 10px;">
+                                        Regresar
+                                    </a>
+                                </div>
+
+                            </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 
-    <footer th:replace="~{general/fragmentos :: footer}"></footer>
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
 
-</body>
+    </body>
 </html>

@@ -1,14 +1,15 @@
 package flawless.beauty.domain;
 
+/**
+ * Encargado para: Monica Garcia
+ */
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-/**
- * Encargado para: Monica Garcia
- */
 @Data
 @Entity
 @Table(name = "promocion")
@@ -37,6 +38,10 @@ public class FlawlessPromocion implements Serializable {
     @Column(nullable = false)
     private boolean activo = true;
 
+    @Column(name = "fecha_inicio")
     private LocalDate fechaInicio;
+
+    @Column(name = "fecha_fin")
     private LocalDate fechaFin;
+    
 }

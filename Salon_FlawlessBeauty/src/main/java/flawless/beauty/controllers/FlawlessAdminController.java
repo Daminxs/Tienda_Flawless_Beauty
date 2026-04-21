@@ -390,7 +390,7 @@ public class FlawlessAdminController {
     // PROMOCIONES
     @GetMapping("/promociones")
     public String promociones(Model model) {
-        model.addAttribute("promociones", promocionService.getPromociones());
+        model.addAttribute("promociones", promocionService.getPromocionesVigentes());
         return "salonpaneladmin/promociones";
     }
 
@@ -403,7 +403,9 @@ public class FlawlessAdminController {
     @GetMapping("/editarPromocion/{id}")
     public String editarPromocion(@PathVariable Long id, Model model) {
         FlawlessPromocion promocion = promocionService.getPromocionById(id);
-        if (promocion == null) return "redirect:/admin/promociones";
+        if (promocion == null) {
+            return "redirect:/admin/promociones";
+        }
         model.addAttribute("promocion", promocion);
         return "salonpaneladmin/editarPromocion";
     }
@@ -414,6 +416,8 @@ public class FlawlessAdminController {
             @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile) {
 
         try {
+
+            // Mantener imagen si no se cambia
             if (promocion.getId() != null) {
                 FlawlessPromocion existente = promocionService.getPromocionById(promocion.getId());
                 if (existente != null && existente.getImagen() != null
@@ -422,16 +426,34 @@ public class FlawlessAdminController {
                 }
             }
 
+            // Guardar nueva imagen
             if (imagenFile != null && !imagenFile.isEmpty()) {
                 String original = imagenFile.getOriginalFilename();
                 String nombreArchivo = "promo_" + System.currentTimeMillis()
                         + original.substring(original.lastIndexOf("."));
+
                 String ruta = System.getProperty("user.dir")
                         + "/src/main/resources/static/img/promociones/";
+
                 java.io.File directorio = new java.io.File(ruta);
-                if (!directorio.exists()) directorio.mkdirs();
+                if (!directorio.exists()) {
+                    directorio.mkdirs();
+                }
+
                 imagenFile.transferTo(new java.io.File(directorio, nombreArchivo));
+
                 promocion.setImagen("/img/promociones/" + nombreArchivo);
+            }
+
+            // VALIDACIÓN DE ACTIVO SEGÚN FECHAS
+            java.time.LocalDate hoy = java.time.LocalDate.now();
+
+            if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null) {
+                if (hoy.isBefore(promocion.getFechaInicio()) || hoy.isAfter(promocion.getFechaFin())) {
+                    promocion.setActivo(false);
+                } else {
+                    promocion.setActivo(true);
+                }
             }
 
             promocionService.save(promocion);
