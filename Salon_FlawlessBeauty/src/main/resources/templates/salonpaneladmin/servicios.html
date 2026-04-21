@@ -1,15 +1,138 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<!-- Panel Admin - servicios.html -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
     <body>
-        <div>TODO write content</div>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container mt-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2 class="mb-0">Gestión de Servicios</h2>
+
+                <a th:href="@{/admin/servicios/nuevo}"
+                   class="btn"
+                   style="border:2px solid #b76e79; color:#b76e79;">
+                    Nuevo Servicio
+                </a>
+
+            </div>
+
+            <div class="card shadow p-3">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover text-center align-middle">
+
+                        <thead style="background:#f3d6cf;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Precio</th>
+                                <th>Categoría</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="s : ${servicios}">
+
+                                <td th:text="${s.id}"></td>
+
+                                <td class="fw-bold" th:text="${s.nombre}"></td>
+
+                                <td th:text="${s.descripcion}"></td>
+
+                                <td>₡ <span th:text="${s.precio}"></span></td>
+
+                                <td th:text="${s.categoria != null ? s.categoria.nombre : 'Sin categoría'}"></td>
+
+                                <td>
+
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <!-- VER -->
+                                        <button class="btn btn-sm"
+                                                style="border:2px solid #b76e79; color:#b76e79;"
+                                                data-bs-toggle="modal"
+                                                th:data-bs-target="'#modal' + ${s.id}">
+                                            Ver
+                                        </button>
+
+                                        <!-- EDITAR -->
+                                        <a th:href="@{'/admin/editarServicio/' + ${s.id}}"
+                                           class="btn btn-sm"
+                                           style="border:2px solid #b76e79; color:#b76e79;">
+                                            Editar
+                                        </a>
+
+                                        <!-- ELIMINAR -->
+                                        <a th:href="@{'/admin/eliminarServicio/' + ${s.id}}"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('¿Eliminar servicio?');">
+                                            Eliminar
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- MODAL VER SERVICIO -->
+        <div th:each="s : ${servicios}"
+             class="modal fade"
+             th:id="'modal' + ${s.id}">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 class="modal-title" th:text="${s.nombre}"></h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <p><strong>Descripción:</strong></p>
+                        <p th:text="${s.descripcion}"></p>
+
+                        <hr>
+
+                        <p><strong>Precio:</strong></p>
+                        <p>₡ <span th:text="${s.precio}"></span></p>
+
+                        <hr>
+
+                        <p><strong>Categoría:</strong></p>
+                        <p th:text="${s.categoria != null ? s.categoria.nombre : 'Sin categoría'}"></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
 </html>
