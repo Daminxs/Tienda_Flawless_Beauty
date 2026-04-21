@@ -1,15 +1,72 @@
 <!DOCTYPE html>
 <!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+    Encargado para Damian: Panel Admin - reservas.html
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
     <body>
-        <div>TODO write content</div>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container mt-4">
+
+            <h2 class="mb-3">Reservas (Administración)</h2>
+
+            <!-- BUSCADOR -->
+            <form method="get" action="/admin/reservas" class="mb-3 d-flex gap-2">
+
+                <input type="text"
+                       name="filtro"
+                       class="form-control"
+                       placeholder="Buscar por ID o correo"
+                       th:value="${filtro}">
+
+                <button class="btn btn-primary">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+
+            </form>
+
+            <!-- TABLA -->
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Usuario</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="reserva : ${reservas}">
+
+                            <td th:text="${reserva.id}"></td>
+                            <td th:text="${reserva.usuario.correo}"></td>
+                            <td th:text="${reserva.producto.nombre}"></td>
+                            <td th:text="${reserva.cantidad}"></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p class="text-muted" th:if="${#lists.isEmpty(reservas)}">
+                No hay reservas registradas.
+            </p>
+
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
 </html>

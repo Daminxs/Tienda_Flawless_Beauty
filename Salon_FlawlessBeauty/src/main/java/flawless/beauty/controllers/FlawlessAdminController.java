@@ -256,18 +256,66 @@ public class FlawlessAdminController {
     }
 
     // CITAS
-    
     @GetMapping("/citas")
-    public String citas(Model model) {
-        model.addAttribute("citas", citaService.getCitas());
+    public String citas(
+            @RequestParam(required = false) String filtro,
+            Model model) {
+
+        java.util.List<FlawlessCita> citas = citaService.getCitas();
+
+        // ORDENAR MÁS RECIENTES
+        citas = citas.stream()
+                .sorted((a, b) -> b.getId().compareTo(a.getId()))
+                .toList();
+
+        // FILTRO POR ID O CORREO
+        if (filtro != null && !filtro.isEmpty()) {
+
+            citas = citas.stream()
+                    .filter(c
+                            -> (c.getId() != null && c.getId().toString().contains(filtro))
+                    || (c.getUsuario() != null
+                    && c.getUsuario().getCorreo() != null
+                    && c.getUsuario().getCorreo().toLowerCase().contains(filtro.toLowerCase()))
+                    )
+                    .toList();
+        }
+
+        model.addAttribute("citas", citas);
+        model.addAttribute("filtro", filtro);
+
         return "salonpaneladmin/citas";
     }
 
     // RESERVAS
-
     @GetMapping("/reservas")
-    public String reservas(Model model) {
-        model.addAttribute("reservas", reservaService.getReservas());
+    public String reservas(
+            @RequestParam(required = false) String filtro,
+            Model model) {
+
+        java.util.List<FlawlessReserva> reservas = reservaService.getReservas();
+
+        // más recientes primero
+        reservas = reservas.stream()
+                .sorted((a, b) -> b.getId().compareTo(a.getId()))
+                .toList();
+
+        // filtro por id o correo
+        if (filtro != null && !filtro.isEmpty()) {
+
+            reservas = reservas.stream()
+                    .filter(r
+                            -> (r.getId() != null && r.getId().toString().contains(filtro))
+                    || (r.getUsuario() != null
+                    && r.getUsuario().getCorreo() != null
+                    && r.getUsuario().getCorreo().toLowerCase().contains(filtro.toLowerCase()))
+                    )
+                    .toList();
+        }
+
+        model.addAttribute("reservas", reservas);
+        model.addAttribute("filtro", filtro);
+
         return "salonpaneladmin/reservas";
     }
 }

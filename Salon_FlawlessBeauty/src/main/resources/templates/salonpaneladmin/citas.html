@@ -1,15 +1,76 @@
 <!DOCTYPE html>
 <!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+    Encargado para Damian: Panel Admin - citas.html
 -->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
     <body>
-        <div>TODO write content</div>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container mt-4">
+
+            <h2 class="mb-3">Citas (Administración)</h2>
+
+            <!-- BUSCADOR -->
+            <form method="get" action="/admin/citas" class="mb-3 d-flex gap-2">
+
+                <input type="text"
+                       name="filtro"
+                       class="form-control"
+                       placeholder="Buscar por ID o correo"
+                       th:value="${filtro}">
+
+                <button class="btn btn-primary">
+                    <i class="bi bi-search"></i> Buscar
+                </button>
+
+            </form>
+
+            <!-- TABLA -->
+            <div class="table-responsive">
+
+                <table class="table table-hover align-middle">
+
+                    <thead class="table-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Código</th>
+                            <th>Usuario</th>
+                            <th>Servicio</th>
+                            <th>Fecha</th>
+                            <th>Hora</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr th:each="cita : ${citas}">
+
+                            <td th:text="${cita.id}"></td>
+                            <td th:text="${cita.codigo}"></td>
+                            <td th:text="${cita.usuario.correo}"></td>
+                            <td th:text="${cita.servicio.nombre}"></td>
+                            <td th:text="${cita.fecha}"></td>
+                            <td th:text="${cita.hora}"></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <p class="text-muted" th:if="${#lists.isEmpty(citas)}">
+                No hay citas registradas.
+            </p>
+
+        </main>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
 </html>
