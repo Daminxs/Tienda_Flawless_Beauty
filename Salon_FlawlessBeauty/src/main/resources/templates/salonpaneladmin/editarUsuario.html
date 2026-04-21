@@ -20,10 +20,12 @@
 
                     <div class="card shadow p-4">
 
-                        <form th:action="@{/admin/guardarUsuario}" method="post">
+                        <form th:action="@{/admin/guardarUsuario}" 
+                              method="post"
+                              th:object="${usuario}">
 
                             <!-- ID oculto -->
-                            <input type="hidden" th:field="*{idUsuario}" th:value="${usuario.idUsuario}"/>
+                            <input type="hidden" th:field="*{idUsuario}"/>
 
                             <!-- Nombre -->
                             <div class="mb-3">
@@ -31,7 +33,6 @@
                                 <input type="text"
                                        class="form-control"
                                        th:field="*{nombre}"
-                                       th:value="${usuario.nombre}"
                                        required>
                             </div>
 
@@ -41,31 +42,31 @@
                                 <input type="email"
                                        class="form-control"
                                        th:field="*{correo}"
-                                       th:value="${usuario.correo}"
                                        required>
                             </div>
 
-                            <!-- Teléfono -->
+                            <!-- Telefono -->
                             <div class="mb-3">
-                                <label class="form-label">Teléfono</label>
+                                <label class="form-label">Telefono</label>
                                 <input type="text"
                                        class="form-control"
-                                       th:field="*{telefono}"
-                                       th:value="${usuario.telefono}">
+                                       th:field="*{telefono}">
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password"
+                                       class="form-control"
+                                       th:field="*{password}"
+                                       placeholder="Ingrese contraseña">
                             </div>
 
                             <!-- Estado -->
                             <div class="mb-3">
                                 <label class="form-label">Estado</label>
-                                <select class="form-select" name="activo">
-                                    <option th:value="true"
-                                            th:selected="${usuario.activo}">
-                                        Activo
-                                    </option>
-                                    <option th:value="false"
-                                            th:selected="${!usuario.activo}">
-                                        Inactivo
-                                    </option>
+                                <select class="form-select" th:field="*{activo}">
+                                    <option th:value="true">Activo</option>
+                                    <option th:value="false">Inactivo</option>
                                 </select>
                             </div>
 
@@ -79,7 +80,7 @@
                                            type="checkbox"
                                            name="roles"
                                            th:value="${rol.idRol}"
-                                           th:checked="${usuario.roles.contains(rol)}">
+                                           th:checked="${usuario.roles != null and usuario.roles.contains(rol)}">
 
                                     <label class="form-check-label"
                                            th:text="${rol.nombre}">

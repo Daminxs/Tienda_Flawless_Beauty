@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <!--
-    Encargado para Damian
+    Encargado para Damian: editarCuenta.html
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <head th:replace="general/fragmentos :: head"></head>
+    <head th:replace="~{general/fragmentos :: head}"></head>
 
     <body>
 
-        <header th:replace="general/fragmentos :: header"></header>
+        <header th:replace="~{general/fragmentos :: header}"></header>
 
         <main class="container mt-5">
 
@@ -20,41 +20,75 @@
 
                         <h2 class="text-center mb-4">Editar Cuenta</h2>
 
-                        <form th:action="@{/editarCuenta}"
-                              th:object="${usuario}"
-                              method="post">
+                        <!-- MENSAJES -->
+                        <div th:if="${error}" class="alert alert-danger text-center">
+                            [[${error}]]
+                        </div>
 
-                            <!-- ID oculto para actualizar -->
-                            <input type="hidden" th:field="*{idUsuario}">
+                        <div th:if="${mensaje}" class="alert alert-success text-center">
+                            [[${mensaje}]]
+                        </div>
 
+                        <form th:action="@{/editarCuenta}" method="post">
+
+                            <!-- Nombre -->
                             <div class="mb-3">
                                 <label class="form-label">Nombre</label>
                                 <input type="text"
                                        class="form-control"
-                                       th:field="*{nombre}">
+                                       name="nombre"
+                                       th:value="${usuario.nombre}"
+                                       required>
                             </div>
 
+                            <!-- Correo (solo lectura) -->
                             <div class="mb-3">
                                 <label class="form-label">Correo</label>
                                 <input type="email"
                                        class="form-control"
-                                       th:field="*{correo}">
+                                       th:value="${usuario.correo}"
+                                       readonly>
                             </div>
-                            
+
+                            <!-- Teléfono -->
                             <div class="mb-3">
                                 <label class="form-label">Teléfono</label>
                                 <input type="text"
                                        class="form-control"
-                                       th:field="*{telefono}">
+                                       name="telefono"
+                                       th:value="${usuario.telefono}">
+                            </div>
+
+                            <hr>
+
+                            <h5 class="mb-3 text-center">Cambiar contraseña</h5>
+                            
+                            <div class="alert alert-info text-center py-2">
+                                Deje estos campos vacíos si no desea cambiar la contraseña
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
+                                <label class="form-label">Contraseña actual</label>
                                 <input type="password"
-                                       class="form-control"
-                                       th:field="*{password}">
+                                       name="passwordActual"
+                                       class="form-control">
                             </div>
-                            
+
+                            <div class="mb-3">
+                                <label class="form-label">Nueva contraseña</label>
+                                <input type="password"
+                                       name="nuevaPassword"
+                                       class="form-control">
+                            </div>
+
+                            <!-- Olvidó contraseña -->
+                            <div class="text-end mb-3">
+                                <a th:href="@{/recuperar}" style="font-size: 0.9rem;">
+                                    ¿Olvidaste tu contraseña?
+                                </a>
+                            </div>
+
+                            <!-- BOTONES -->
                             <div class="d-grid gap-2">
 
                                 <button type="submit"
@@ -79,7 +113,7 @@
 
         </main>
 
-        <footer th:replace="general/fragmentos :: footer"></footer>
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
 
     </body>
 </html>

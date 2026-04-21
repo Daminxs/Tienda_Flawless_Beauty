@@ -16,6 +16,15 @@
             <h2 class="text-center mb-4">Gestión de Usuarios</h2>
 
             <div class="card shadow p-4">
+                
+                <!-- Boton de Crear USUARIO -->
+                <div class="mb-3 text-end">
+                    <a th:href="@{/admin/usuarios/nuevo}"
+                       class="btn"
+                       style="border:2px solid #b76e79; color:#b76e79;">
+                        Nuevo Usuario
+                    </a>
+                </div>
 
                 <div class="table-responsive">
                     <table class="table align-middle text-center">
@@ -60,7 +69,7 @@
 
                                         <a th:href="@{/admin/eliminarUsuario/{id}(id=${u.idUsuario})}"
                                            class="btn btn-sm btn-outline-danger"
-                                           onclick="return confirm('¿Eliminar usuario?')">
+                                           onclick="return confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede recuperar.')">
                                             Eliminar
                                         </a>
 

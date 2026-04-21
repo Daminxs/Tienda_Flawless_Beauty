@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import java.time.LocalDateTime;
 import java.util.UUID;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class FlawlessUsuarioController {
@@ -117,7 +118,7 @@ public class FlawlessUsuarioController {
 
         return "redirect:/login";
     }
-
+    
     @GetMapping("/editarCuenta")
     public String editarCuenta(Principal principal, Model model) {
 
@@ -135,22 +136,56 @@ public class FlawlessUsuarioController {
     }
 
     @PostMapping("/editarCuenta")
-    public String actualizarCuenta(FlawlessUsuario usuario) {
+    public String actualizarCuenta(
+            Principal principal,
+            @RequestParam String nombre,
+            @RequestParam String telefono,
+            @RequestParam(required = false) String passwordActual,
+            @RequestParam(required = false) String nuevaPassword,
+            Model model) {
 
-        FlawlessUsuario actual =
-                usuarioRepository.findById(usuario.getIdUsuario())
-                        .orElse(null);
-
-        if (actual != null) {
-
-            actual.setNombre(usuario.getNombre());
-            actual.setCorreo(usuario.getCorreo());
-            actual.setTelefono(usuario.getTelefono());
-
-            usuarioRepository.save(actual);
+        if (principal == null) {
+            return "redirect:/login";
         }
 
-        return "redirect:/perfil";
+        String correo = principal.getName();
+
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        usuario.setNombre(nombre);
+        usuario.setTelefono(telefono);
+
+        // Cambio de contraseña
+        if (nuevaPassword != null && !nuevaPassword.isEmpty()) {
+
+            // Validar que ingresó la contraseña actual
+            if (passwordActual == null || passwordActual.isEmpty()) {
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("error", "Debe ingresar la contraseña actual");
+                return "editarCuenta";
+            }
+
+            // Verificar contraseña correcta
+            if (!passwordEncoder.matches(passwordActual, usuario.getPassword())) {
+                model.addAttribute("usuario", usuario);
+                model.addAttribute("error", "Contraseña actual incorrecta");
+                return "editarCuenta";
+            }
+
+            // Guardar nueva contraseña
+            usuario.setPassword(passwordEncoder.encode(nuevaPassword));
+        }
+
+        usuarioRepository.save(usuario);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("mensaje", "Datos actualizados correctamente");
+
+        return "editarCuenta";
     }
 
     @PostMapping("/eliminarCuenta")

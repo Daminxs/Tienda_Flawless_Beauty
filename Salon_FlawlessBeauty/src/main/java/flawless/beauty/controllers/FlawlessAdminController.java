@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package flawless.beauty.controllers;
 
 /**
@@ -42,6 +39,9 @@ public class FlawlessAdminController {
 
     @Autowired
     private FlawlessReservaService reservaService;
+    
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
     // PANEL PRINCIPAL
     @GetMapping
@@ -56,7 +56,19 @@ public class FlawlessAdminController {
         model.addAttribute("usuarios", usuarioRepository.findAll());
         return "salonpaneladmin/usuarios";
     }
+    
+    @GetMapping("/usuarios/nuevo")
+    public String nuevoUsuario(Model model) {
 
+        FlawlessUsuario usuario = new FlawlessUsuario();
+        usuario.setRoles(new java.util.ArrayList<>());
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("roles", rolRepository.findAll());
+
+        return "salonpaneladmin/editarUsuario";
+    }
+    
     @GetMapping("/editarUsuario/{id}")
     public String editarUsuario(@PathVariable Long id, Model model) {
         FlawlessUsuario usuario = usuarioRepository.findById(id).orElse(null);
@@ -70,49 +82,66 @@ public class FlawlessAdminController {
             FlawlessUsuario usuario,
             @RequestParam(value = "roles", required = false) java.util.List<Long> rolesIds) {
 
-        FlawlessUsuario actual = usuarioRepository
-                .findById(usuario.getIdUsuario())
-                .orElse(null);
+        FlawlessUsuario actual = null;
 
-        if (actual != null) {
-
-            actual.setNombre(usuario.getNombre());
-            actual.setCorreo(usuario.getCorreo());
-            actual.setTelefono(usuario.getTelefono());
-            actual.setActivo(usuario.isActivo());
-
-            // PROTEGER ADMIN
-            if (actual.getCorreo().equals("admin@flawless.com")) {
-
-                if (rolesIds == null) {
-                    rolesIds = new java.util.ArrayList<>();
-                }
-
-                boolean tieneAdmin = rolesIds.contains(1L);
-
-                if (!tieneAdmin) {
-                    rolesIds.add(1L);
-                }
-            }
-
-            if (rolesIds != null) {
-                java.util.List<FlawlessRol> roles = rolRepository.findAllById(rolesIds);
-                actual.setRoles(roles);
-            } else {
-                actual.setRoles(new java.util.ArrayList<>());
-            }
-
-            usuarioRepository.save(actual);
+        // EDITAR
+        if (usuario.getIdUsuario() != null) {
+            actual = usuarioRepository
+                    .findById(usuario.getIdUsuario())
+                    .orElse(null);
         }
+
+        // CREAR NUEVO
+        if (actual == null) {
+            actual = new FlawlessUsuario();
+
+            // password (obligatoria)
+            if (usuario.getPassword() == null || usuario.getPassword().isEmpty()) {
+                return "redirect:/admin/usuarios/nuevo";
+            }
+        }
+
+        actual.setNombre(usuario.getNombre());
+        actual.setCorreo(usuario.getCorreo());
+        actual.setTelefono(usuario.getTelefono());
+        actual.setActivo(usuario.isActivo());
+
+        // PASSWORD (solo si viene algo)
+        if (usuario.getPassword() != null && !usuario.getPassword().isEmpty()) {
+            actual.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        }
+
+        // PROTEGER ADMIN
+        if (actual.getCorreo() != null && actual.getCorreo().equals("admin@flawless.com")) {
+
+            if (rolesIds == null) {
+                rolesIds = new java.util.ArrayList<>();
+            }
+
+            if (!rolesIds.contains(1L)) {
+                rolesIds.add(1L);
+            }
+        }
+
+        // ROLES
+        if (rolesIds != null) {
+            java.util.List<FlawlessRol> roles = rolRepository.findAllById(rolesIds);
+            actual.setRoles(roles);
+        } else {
+            actual.setRoles(new java.util.ArrayList<>());
+        }
+
+        usuarioRepository.save(actual);
 
         return "redirect:/admin/usuarios";
     }
-
+    
     @GetMapping("/eliminarUsuario/{id}")
     public String eliminarUsuario(@PathVariable Long id) {
 
         FlawlessUsuario usuario = usuarioRepository.findById(id).orElse(null);
 
+        // proteger admin
         if (usuario != null && usuario.getCorreo().equals("admin@flawless.com")) {
             return "redirect:/admin/usuarios";
         }
