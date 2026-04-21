@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <h4 class="text-center mb-3">
+                    Restablecer contraseña
+                </h4>
+
+                <form th:action="@{/restablecer}" method="post">
+
+                    <input type="hidden" name="token" th:value="${token}">
+
+                    <div class="mb-3">
+                        <label>Nueva contraseña</label>
+                        <input type="password"
+                               name="password"
+                               class="form-control"
+                               required>
+                    </div>
+
+                    <button class="btn btn-danger w-100">
+                        Cambiar contraseña
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>

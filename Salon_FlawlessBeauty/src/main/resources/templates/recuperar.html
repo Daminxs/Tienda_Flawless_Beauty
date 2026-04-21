@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{general/fragmentos :: head}"></head>
+
+<body>
+
+<header th:replace="~{general/fragmentos :: header}"></header>
+
+<main class="container mt-5">
+
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+
+            <div class="card shadow p-4">
+
+                <h4 class="text-center mb-3">
+                    Recuperar contraseña
+                </h4>
+
+                <p th:if="${error}" class="text-danger text-center">
+                    [[${error}]]
+                </p>
+
+                <p th:if="${mensaje}" class="text-success text-center">
+                    [[${mensaje}]]
+                </p>
+
+                <form th:action="@{/recuperar}" method="post">
+
+                    <div class="mb-3">
+                        <label>Correo</label>
+                        <input type="email" name="correo"
+                               class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-danger w-100">
+                        Enviar enlace
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+</main>
+
+</body>
+</html>
