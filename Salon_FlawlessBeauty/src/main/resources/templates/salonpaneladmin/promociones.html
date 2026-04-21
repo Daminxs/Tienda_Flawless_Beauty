@@ -3,7 +3,7 @@
     Encargado para Damian: promociones.html
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-    
+
     <head th:replace="~{general/fragmentos :: head}"></head>
 
     <body>
@@ -47,7 +47,7 @@
 
                                 <td>
                                     <img th:if="${p.imagen != null}"
-                                         th:src="${p.imagen}"
+                                         th:src="@{${p.imagen}}"
                                          width="60" height="60"
                                          class="rounded"
                                          style="object-fit:cover;">
@@ -129,7 +129,7 @@
                     <div class="modal-body text-center">
 
                         <img th:if="${p.imagen != null}"
-                             th:src="${p.imagen}"
+                             th:src="@{${p.imagen}}"
                              class="img-fluid rounded mb-3"
                              style="max-height:200px; object-fit:cover;">
 

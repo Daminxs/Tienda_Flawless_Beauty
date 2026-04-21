@@ -22,5 +22,9 @@ public class FlawlessWebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/img/productos/**")
                 .addResourceLocations("file:" + System.getProperty("user.dir")
                         + "/src/main/resources/static/img/productos/");
+
+        registry.addResourceHandler("/img/promociones/**")
+                .addResourceLocations("file:" + System.getProperty("user.dir")
+                        + "/src/main/resources/static/img/promociones/");
     }
 }
