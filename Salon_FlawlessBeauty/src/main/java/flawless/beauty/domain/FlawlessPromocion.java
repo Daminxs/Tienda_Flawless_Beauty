@@ -1,35 +1,42 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package flawless.beauty.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import java.io.Serializable;
+import java.time.LocalDate;
+
 /**
- *
  * Encargado para: Monica Garcia
  */
-
-// Esta clase debe hacer lo siguiente:
-
-// Representar la entidad Promocion dentro del sistema.
-// Esta clase se conecta con la tabla promocion de la base de datos.
-// Contiene la información de las promociones disponibles en el salón.
-// Define atributos como id, título, descripción y descuento.
-// Permite mostrar las promociones que el usuario puede ver dentro del sitio web.
-
 @Data
 @Entity
-@Table(name="promocion")
+@Table(name = "promocion")
 public class FlawlessPromocion implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank
+    @Size(max = 100)
+    @Column(nullable = false, length = 100)
     private String titulo;
+
+    @Column(columnDefinition = "TEXT")
     private String descripcion;
-    private double descuento;
+
+    @NotNull
+    @DecimalMin("0.0")
+    @DecimalMax("100.0")
+    private Double descuento;
+
+    private String imagen;
+
+    @Column(nullable = false)
+    private boolean activo = true;
+
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
 }

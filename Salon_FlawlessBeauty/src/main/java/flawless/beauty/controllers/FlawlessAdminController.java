@@ -9,6 +9,7 @@ package flawless.beauty.controllers;
 import flawless.beauty.domain.*;
 import flawless.beauty.repository.*;
 import flawless.beauty.service.*;
+import flawless.beauty.service.FlawlessPromocionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,6 +44,9 @@ public class FlawlessAdminController {
 
     @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private FlawlessPromocionService promocionService;
 
     // PANEL PRINCIPAL
     @GetMapping
@@ -381,5 +385,73 @@ public class FlawlessAdminController {
     public String nuevaReserva(Model model) {
         model.addAttribute("reserva", new FlawlessReserva());
         return "salonpaneladmin/crearReserva";
+    }
+
+    // PROMOCIONES
+    @GetMapping("/promociones")
+    public String promociones(Model model) {
+        model.addAttribute("promociones", promocionService.getPromociones());
+        return "salonpaneladmin/promociones";
+    }
+
+    @GetMapping("/promociones/nueva")
+    public String nuevaPromocion(Model model) {
+        model.addAttribute("promocion", new FlawlessPromocion());
+        return "salonpaneladmin/editarPromocion";
+    }
+
+    @GetMapping("/editarPromocion/{id}")
+    public String editarPromocion(@PathVariable Long id, Model model) {
+        FlawlessPromocion promocion = promocionService.getPromocionById(id);
+        if (promocion == null) return "redirect:/admin/promociones";
+        model.addAttribute("promocion", promocion);
+        return "salonpaneladmin/editarPromocion";
+    }
+
+    @PostMapping("/guardarPromocion")
+    public String guardarPromocion(
+            @ModelAttribute FlawlessPromocion promocion,
+            @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile) {
+
+        try {
+            if (promocion.getId() != null) {
+                FlawlessPromocion existente = promocionService.getPromocionById(promocion.getId());
+                if (existente != null && existente.getImagen() != null
+                        && (imagenFile == null || imagenFile.isEmpty())) {
+                    promocion.setImagen(existente.getImagen());
+                }
+            }
+
+            if (imagenFile != null && !imagenFile.isEmpty()) {
+                String original = imagenFile.getOriginalFilename();
+                String nombreArchivo = "promo_" + System.currentTimeMillis()
+                        + original.substring(original.lastIndexOf("."));
+                String ruta = System.getProperty("user.dir")
+                        + "/src/main/resources/static/img/promociones/";
+                java.io.File directorio = new java.io.File(ruta);
+                if (!directorio.exists()) directorio.mkdirs();
+                imagenFile.transferTo(new java.io.File(directorio, nombreArchivo));
+                promocion.setImagen("/img/promociones/" + nombreArchivo);
+            }
+
+            promocionService.save(promocion);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "redirect:/admin/promociones";
+    }
+
+    @GetMapping("/eliminarPromocion/{id}")
+    public String eliminarPromocion(@PathVariable Long id) {
+        FlawlessPromocion promocion = promocionService.getPromocionById(id);
+        if (promocion != null && promocion.getImagen() != null) {
+            String ruta = System.getProperty("user.dir")
+                    + "/src/main/resources/static" + promocion.getImagen();
+            new java.io.File(ruta).delete();
+        }
+        promocionService.delete(id);
+        return "redirect:/admin/promociones";
     }
 }
