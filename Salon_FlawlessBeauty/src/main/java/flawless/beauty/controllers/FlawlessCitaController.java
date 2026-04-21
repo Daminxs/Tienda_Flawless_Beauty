@@ -19,49 +19,48 @@ package flawless.beauty.controllers;
 // Mostrar al usuario sus citas registradas.
 // Permitir visualizar las reservas existentes.
 
-import flawless.beauty.domain.FlawlessUsuario;
-import flawless.beauty.domain.FlawlessCita;
-import flawless.beauty.domain.FlawlessServicio;
-import flawless.beauty.repository.FlawlessUsuarioRepository;
-import flawless.beauty.repository.FlawlessServicioRepository;
-import flawless.beauty.service.FlawlessCitaService;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
+import flawless.beauty.domain.*;
+import flawless.beauty.repository.*;
+import flawless.beauty.service.*;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import java.util.UUID;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class FlawlessCitaController {
 
-    @Autowired
-    private FlawlessUsuarioRepository usuarioRepository;
+    private final FlawlessUsuarioRepository usuarioRepository;
+    private final FlawlessServicioRepository servicioRepository;
+    private final FlawlessCitaService citaService;
 
-    @Autowired
-    private FlawlessServicioRepository servicioRepository;
+    public FlawlessCitaController(
+            FlawlessUsuarioRepository usuarioRepository,
+            FlawlessServicioRepository servicioRepository,
+            FlawlessCitaService citaService) {
 
-    @Autowired
-    private FlawlessCitaService citaService;
+        this.usuarioRepository = usuarioRepository;
+        this.servicioRepository = servicioRepository;
+        this.citaService = citaService;
+    }
 
     @GetMapping("/agendarCita")
-    public String agendarCita(@RequestParam Long id, HttpSession session, Model model) {
+    public String agendarCita(@RequestParam Long id,
+                              Authentication auth,
+                              Model model) {
 
-        String correo = (String) session.getAttribute("correo");
-        if (correo == null) {
-            model.addAttribute("error", "Debes iniciar sesión para agendar una cita");
-            return "login";
-        }
+        String correo = auth.getName();
 
         FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+
         if (usuario == null) {
-            model.addAttribute("error", "Usuario no encontrado");
-            return "login";
+            return "redirect:/login";
         }
 
-        FlawlessServicio servicio = servicioRepository.findById(id).orElse(null);
+        FlawlessServicio servicio = servicioRepository.findById(id)
+                .orElse(null);
+
         if (servicio == null) {
             model.addAttribute("error", "Servicio no encontrado");
             return "perfil";
@@ -77,20 +76,20 @@ public class FlawlessCitaController {
     public String guardarCita(
             @RequestParam Long servicioId,
             FlawlessCita cita,
-            HttpSession session,
+            Authentication auth,
             Model model) {
 
-        String correo = (String) session.getAttribute("correo");
-        if (correo == null) {
-            return "redirect:/login";
-        }
+        String correo = auth.getName();
 
         FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        FlawlessServicio servicio = servicioRepository.findById(servicioId).orElse(null);
+        FlawlessServicio servicio = servicioRepository.findById(servicioId)
+                .orElse(null);
+
         if (servicio == null) {
             model.addAttribute("mensaje", "Servicio no encontrado");
             return "agendarCita";
@@ -98,7 +97,9 @@ public class FlawlessCitaController {
 
         cita.setUsuario(usuario);
         cita.setServicio(servicio);
-        cita.setCodigo(UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+
+        long numero = citaService.getCitas().size() + 1;
+        cita.setCodigo(String.format("CITA-%05d", numero));
 
         citaService.save(cita);
 
@@ -106,19 +107,18 @@ public class FlawlessCitaController {
     }
 
     @GetMapping("/misCitas")
-    public String misCitas(HttpSession session, Model model) {
+    public String misCitas(Authentication auth, Model model) {
 
-        String correo = (String) session.getAttribute("correo");
-        if (correo == null) {
-            return "redirect:/login";
-        }
+        String correo = auth.getName();
 
         FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+
         if (usuario == null) {
             return "redirect:/login";
         }
 
         model.addAttribute("citas", citaService.findByUsuario(usuario));
+
         return "misCitas";
     }
 }

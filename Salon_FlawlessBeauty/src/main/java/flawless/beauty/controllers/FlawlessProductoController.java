@@ -17,13 +17,15 @@ package flawless.beauty.controllers;
 // Permitir mostrar información de cada producto como nombre, descripción, precio e imagen.
 // Permitir que el usuario vea los productos y pueda seleccionar uno para realizar una reserva.
 
-import flawless.beauty.domain.FlawlessProducto;
-import flawless.beauty.domain.FlawlessCategoria;
-import flawless.beauty.service.FlawlessProductoService;
-import flawless.beauty.service.FlawlessCategoriaService;
+import flawless.beauty.domain.*;
+import flawless.beauty.repository.*;
+import flawless.beauty.service.*;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -32,13 +34,22 @@ public class FlawlessProductoController {
 
     private final FlawlessProductoService productoService;
     private final FlawlessCategoriaService categoriaService;
+    private final FlawlessProductoRepository productoRepository;
+    private final FlawlessUsuarioRepository usuarioRepository;
+    private final FlawlessReservaService reservaService;
 
     public FlawlessProductoController(
             FlawlessProductoService productoService,
-            FlawlessCategoriaService categoriaService) {
+            FlawlessCategoriaService categoriaService,
+            FlawlessProductoRepository productoRepository,
+            FlawlessUsuarioRepository usuarioRepository,
+            FlawlessReservaService reservaService) {
 
         this.productoService = productoService;
         this.categoriaService = categoriaService;
+        this.productoRepository = productoRepository;
+        this.usuarioRepository = usuarioRepository;
+        this.reservaService = reservaService;
     }
 
     @GetMapping
@@ -47,17 +58,49 @@ public class FlawlessProductoController {
         List<FlawlessCategoria> categorias =
                 categoriaService.getCategoriasProductos();
 
-        List<FlawlessProducto> productos;
-
-        if (categoria == null) {
-            productos = productoService.getProductos();
-        } else {
-            productos = productoService.getProductosPorCategoria(categoria);
-        }
+        List<FlawlessProducto> productos =
+                (categoria == null)
+                        ? productoService.getProductos()
+                        : productoService.getProductosPorCategoria(categoria);
 
         model.addAttribute("categorias", categorias);
         model.addAttribute("productos", productos);
 
         return "salonproductos/listado";
+    }
+
+    @PostMapping("/guardarReserva")
+    public String guardarReserva(
+            @RequestParam Long productoId,
+            FlawlessReserva reserva,
+            Authentication auth,
+            Model model) {
+
+        // usuario logeado
+        String correo = auth.getName();
+
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        FlawlessProducto producto = productoRepository.findById(productoId)
+                .orElse(null);
+
+        if (producto == null) {
+            model.addAttribute("mensaje", "Producto no encontrado");
+            return "salonproductos/listado";
+        }
+
+        reserva.setUsuario(usuario);
+        reserva.setProducto(producto);
+
+        long numero = reservaService.getReservas().size() + 1;
+        reserva.setCodigo(String.format("RES-%05d", numero));
+
+        reservaService.save(reserva);
+
+        return "redirect:/verReservas";
     }
 }

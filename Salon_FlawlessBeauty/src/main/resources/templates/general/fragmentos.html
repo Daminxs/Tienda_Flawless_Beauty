@@ -21,77 +21,80 @@
         
         <style>
 
-        html, body{
-            height:100%;
-            margin:0;
+        html, body {
+            height: 100%;
+            margin: 0;
         }
 
-        /* fondo */
-        body{
-            background:white;
+        body {
+            background: white;
             font-family: Arial, Helvetica, sans-serif;
-            color:#333;
+            color: #333;
 
-            min-height:100vh;
-            display:flex;
-            flex-direction:column;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* header */
-        header{
-            background:white;
-            border-top:3px solid #f3d6cf;
-            border-bottom:3px solid #f3d6cf;
+        main {
+            flex: 1;
+            padding-bottom: 2rem;
         }
 
-        /* footer */
-        footer{
-            background:white;
-            border-top:3px solid #f3d6cf;
-            border-bottom:3px solid #f3d6cf;
-            margin-top:2rem;
+        /* HEADER */
+        header {
+            background: white;
+            border-top: 3px solid #f3d6cf;
+            border-bottom: 3px solid #f3d6cf;
         }
 
-        /* navbar */
-        .navbar-brand{
-            font-weight:bold;
-            color:#b76e79;
-            font-size:22px;
+        /* FOOTER */
+        footer {
+            background: white;
+            border-top: 3px solid #f3d6cf;
+            border-bottom: 3px solid #f3d6cf;
+            margin-top: auto;
         }
 
-        .nav-link{
-            color:#444;
+        .footer-logo {
+            width: 80px;
+            height: auto;
+            margin: 10px auto;
         }
 
-        .nav-link:hover{
-            color:#d98ea3;
+        /* NAVBAR */
+        .navbar-brand {
+            font-weight: bold;
+            color: #b76e79;
+            font-size: 22px;
         }
 
-        /* titulos */
-        h1,h2,h3{
-            color:#b76e79;
+        .nav-link {
+            color: #444;
         }
 
-        /* iconos */
-        header i{
-            color:#b76e79;
+        .nav-link:hover {
+            color: #d98ea3;
         }
 
-        header i:hover{
-            color:#d98ea3;
+        /* TITULOS */
+        h1, h2, h3 {
+            color: #b76e79;
         }
 
-        /* logo footer */
-        .footer-logo{
-            width:80px;
-            height:auto;
-            margin:10px auto;
-            filter:none;
+        /* ICONOS */
+        header i {
+            color: #b76e79;
+            transition: 0.2s;
         }
 
-        /* contenido principal */
-        main{
-            flex:1;
+        header i:hover {
+            color: #d98ea3;
+        }
+
+        /* UTILIDADES */
+        a {
+            text-decoration: none;
         }
 
         </style>
