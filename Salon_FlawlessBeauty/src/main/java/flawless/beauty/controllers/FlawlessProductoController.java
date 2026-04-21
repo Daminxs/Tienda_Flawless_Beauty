@@ -99,4 +99,19 @@ public class FlawlessProductoController {
 
         return "redirect:/verReservas";
     }
+
+    // DETALLE DE PRODUCTO
+    @GetMapping("/detalle/{id}")
+    public String detalleProducto(@PathVariable Long id, Model model) {
+
+        FlawlessProducto producto = productoRepository.findById(id).orElse(null);
+
+        if (producto == null) {
+            return "redirect:/salonproductos";
+        }
+
+        model.addAttribute("producto", producto);
+
+        return "salonproductos/detalle";
+    }
 }

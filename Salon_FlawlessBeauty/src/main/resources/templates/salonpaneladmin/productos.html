@@ -1,15 +1,145 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<!-- Encargado para Damian: Panel Admin - productos.html -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
     <body>
-        <div>TODO write content</div>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container mt-5">
+
+            <h2 class="text-center mb-4 fw-bold">Gestión de Productos</h2>
+
+            <div class="card shadow p-4 border-0 rounded-4">
+
+                <div class="mb-3 text-end">
+                    <a th:href="@{/admin/productos/nuevo}"
+                       class="btn rounded-3 px-4"
+                       style="border:2px solid #b76e79; color:#b76e79;">
+                        Nuevo Producto
+                    </a>
+                </div>
+
+                <div class="table-responsive">
+
+                    <table class="table align-middle text-center">
+
+                        <thead style="background:#f3d6cf;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Imagen</th>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Categoría</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="p : ${productos}">
+
+                                <td th:text="${p.id}"></td>
+
+                                <td>
+                                    <img th:if="${p.imagen != null}"
+                                         th:src="${p.imagen}"
+                                         width="60" height="60"
+                                         class="rounded"
+                                         style="object-fit:cover;">
+                                </td>
+
+                                <td class="fw-semibold" th:text="${p.nombre}"></td>
+
+                                <td th:text="'₡ ' + ${p.precio}"></td>
+
+                                <td th:text="${p.stock} + ' unid.'"></td>
+
+                                <td th:text="${p.categoria != null ? p.categoria.nombre : 'Sin categoría'}"></td>
+
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <button class="btn btn-sm"
+                                                style="border:2px solid #b76e79; color:#b76e79;"
+                                                data-bs-toggle="modal"
+                                                th:data-bs-target="'#modal' + ${p.id}">
+                                            Ver
+                                        </button>
+
+                                        <a th:href="@{'/admin/editarProducto/' + ${p.id}}"
+                                           class="btn btn-sm"
+                                           style="border:2px solid #b76e79; color:#b76e79;">
+                                            Editar
+                                        </a>
+
+                                        <a th:href="@{'/admin/eliminarProducto/' + ${p.id}}"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('¿Eliminar?');">
+                                            Eliminar
+                                        </a>
+
+                                    </div>
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </main>
+
+        <!-- MODAL -->
+        <div th:each="p : ${productos}"
+             class="modal fade"
+             th:id="'modal' + ${p.id}">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content rounded-4">
+
+                    <div class="modal-header">
+                        <h5 class="fw-bold" th:text="${p.nombre}"></h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body text-center">
+
+                        <img th:if="${p.imagen != null}"
+                             th:src="${p.imagen}"
+                             class="img-fluid rounded mb-3"
+                             style="max-height:200px; object-fit:cover;">
+
+                        <p class="text-muted" th:text="${p.descripcion}"></p>
+
+                        <hr>
+
+                        <p><strong>Precio:</strong> ₡ <span th:text="${p.precio}"></span></p>
+
+                        <p><strong>Stock:</strong> <span th:text="${p.stock}"></span> unidades</p>
+
+                        <p>
+                            <strong>Categoría:</strong>
+                            <span th:text="${p.categoria != null ? p.categoria.nombre : 'Sin categoría'}"></span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
 </html>

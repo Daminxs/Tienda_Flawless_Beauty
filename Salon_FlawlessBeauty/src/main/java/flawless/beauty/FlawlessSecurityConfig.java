@@ -61,7 +61,8 @@ public class FlawlessSecurityConfig {
                     "/css/**",
                     "/js/**",
                     "/images/**",
-                    "/img/**"
+                    "/img/**",
+                    "/uploads/**"
                 ).permitAll()
 
                 .requestMatchers("/admin/**")
