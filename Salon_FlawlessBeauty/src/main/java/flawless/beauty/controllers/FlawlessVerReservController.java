@@ -16,7 +16,7 @@ package flawless.beauty.controllers;
 import flawless.beauty.domain.FlawlessUsuario;
 import flawless.beauty.repository.FlawlessUsuarioRepository;
 import flawless.beauty.service.FlawlessReservaService;
-import jakarta.servlet.http.HttpSession;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +32,13 @@ public class FlawlessVerReservController {
     private FlawlessReservaService reservaService;
 
     @GetMapping("/verReservas")
-    public String verReservas(HttpSession session, Model model) {
+    public String verReservas(Principal principal, Model model) {
 
-        String correo = (String) session.getAttribute("correo");
-
-        if (correo == null) {
+        if (principal == null) {
             return "redirect:/login";
         }
+
+        String correo = principal.getName();
 
         FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
 

@@ -68,9 +68,11 @@ public class FlawlessSecurityConfig {
                     .hasRole("ADMIN")
 
                 .requestMatchers(
-                    "/perfil",
-                    "/editarCuenta",
-                    "/eliminarCuenta"
+                        "/perfil",
+                        "/editarCuenta",
+                        "/eliminarCuenta",
+                        "/verReservas",
+                        "/verCitas"
                 ).authenticated()
 
                 .anyRequest().permitAll()
@@ -80,7 +82,7 @@ public class FlawlessSecurityConfig {
                 .loginPage("/login")
                 .usernameParameter("correo")
                 .passwordParameter("password")
-                .defaultSuccessUrl("/perfil", true)
+                .defaultSuccessUrl("/perfil")
                 .failureUrl("/login?error=true")
                 .permitAll()
             )

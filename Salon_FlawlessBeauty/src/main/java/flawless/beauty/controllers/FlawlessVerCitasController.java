@@ -16,7 +16,7 @@ package flawless.beauty.controllers;
 import flawless.beauty.domain.FlawlessUsuario;
 import flawless.beauty.service.FlawlessCitaService;
 import flawless.beauty.repository.FlawlessUsuarioRepository;
-import jakarta.servlet.http.HttpSession;
+import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,21 +32,22 @@ public class FlawlessVerCitasController {
     private FlawlessUsuarioRepository usuarioRepository;
 
     @GetMapping("/verCitas")
-    public String verCitas(HttpSession session, Model model) {
+    public String verCitas(Principal principal, Model model) {
 
-        String correo = (String) session.getAttribute("correo");
-        if (correo == null) {
-            model.addAttribute("error", "Debes iniciar sesión para ver tus citas");
-            return "login"; // Retorna el login para que el mensaje aparezca
+        if (principal == null) {
+            return "redirect:/login";
         }
 
+        String correo = principal.getName();
+
         FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+
         if (usuario == null) {
-            model.addAttribute("error", "Usuario no encontrado");
-            return "login";
+            return "redirect:/login";
         }
 
         model.addAttribute("citas", citaService.findByUsuario(usuario));
+
         return "verCitas";
     }
 }
