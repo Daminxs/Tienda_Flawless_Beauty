@@ -63,6 +63,13 @@
             <p class="text-muted" th:if="${#lists.isEmpty(reservas)}">
                 No hay reservas registradas.
             </p>
+            
+            <div class="text-center mt-4">
+                <a th:href="@{/admin}"
+                   class="btn btn-outline-dark">
+                    Volver al panel
+                </a>
+            </div>
 
         </main>
 

@@ -56,7 +56,10 @@ public class FlawlessProductoController {
     public String listado(@RequestParam(required = false) Long categoria, Model model) {
 
         List<FlawlessCategoria> categorias =
-                categoriaService.getCategoriasProductos();
+                categoriaService.getCategorias()
+                        .stream()
+                        .filter(c -> "PRODUCTO".equals(c.getTipo()))
+                        .toList();
 
         List<FlawlessProducto> productos =
                 (categoria == null)
@@ -100,7 +103,6 @@ public class FlawlessProductoController {
         return "redirect:/verReservas";
     }
 
-    // DETALLE DE PRODUCTO
     @GetMapping("/detalle/{id}")
     public String detalleProducto(@PathVariable Long id, Model model) {
 

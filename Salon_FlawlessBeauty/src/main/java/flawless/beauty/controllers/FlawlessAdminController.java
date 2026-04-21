@@ -7,9 +7,9 @@ package flawless.beauty.controllers;
  */
 
 import flawless.beauty.domain.*;
-import flawless.beauty.repository.FlawlessUsuarioRepository;
-import flawless.beauty.repository.FlawlessRolRepository;
+import flawless.beauty.repository.*;
 import flawless.beauty.service.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,7 +50,7 @@ public class FlawlessAdminController {
         return "salonpaneladmin/indexadmin";
     }
 
-    // USUARIOS 
+    // USUARIOS
     @GetMapping("/usuarios")
     public String usuarios(Model model) {
         model.addAttribute("usuarios", usuarioRepository.findAll());
@@ -80,6 +80,7 @@ public class FlawlessAdminController {
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("roles", rolRepository.findAll());
+
         return "salonpaneladmin/editarUsuario";
     }
 
@@ -90,14 +91,10 @@ public class FlawlessAdminController {
 
         FlawlessUsuario actual = null;
 
-        // EDITAR
         if (usuario.getIdUsuario() != null) {
-            actual = usuarioRepository
-                    .findById(usuario.getIdUsuario())
-                    .orElse(null);
+            actual = usuarioRepository.findById(usuario.getIdUsuario()).orElse(null);
         }
 
-        // CREAR NUEVO
         if (actual == null) {
             actual = new FlawlessUsuario();
 
@@ -115,12 +112,10 @@ public class FlawlessAdminController {
             actual.setPassword(passwordEncoder.encode(usuario.getPassword()));
         }
 
-        if (actual.getCorreo() != null && actual.getCorreo().equals("admin@flawless.com")) {
-
+        if ("admin@flawless.com".equals(actual.getCorreo())) {
             if (rolesIds == null) {
                 rolesIds = new java.util.ArrayList<>();
             }
-
             if (!rolesIds.contains(1L)) {
                 rolesIds.add(1L);
             }
@@ -151,7 +146,7 @@ public class FlawlessAdminController {
         return "redirect:/admin/usuarios";
     }
 
-    // PRODUCTOS 
+    // PRODUCTOS
     @GetMapping("/productos")
     public String productos(Model model) {
         model.addAttribute("productos", productoService.getProductos());
@@ -161,7 +156,14 @@ public class FlawlessAdminController {
     @GetMapping("/productos/nuevo")
     public String nuevoProducto(Model model) {
         model.addAttribute("producto", new FlawlessProducto());
-        model.addAttribute("categorias", categoriaService.getCategoriasProductos());
+
+        model.addAttribute("categorias",
+                categoriaService.getCategorias()
+                        .stream()
+                        .filter(c -> "PRODUCTO".equals(c.getTipo()))
+                        .toList()
+        );
+
         return "salonpaneladmin/editarProducto";
     }
 
@@ -175,7 +177,13 @@ public class FlawlessAdminController {
         }
 
         model.addAttribute("producto", producto);
-        model.addAttribute("categorias", categoriaService.getCategoriasProductos());
+
+        model.addAttribute("categorias",
+                categoriaService.getCategorias()
+                        .stream()
+                        .filter(c -> "PRODUCTO".equals(c.getTipo()))
+                        .toList()
+        );
 
         return "salonpaneladmin/editarProducto";
     }
@@ -203,7 +211,6 @@ public class FlawlessAdminController {
                 }
 
                 java.io.File destino = new java.io.File(directorio, nombreArchivo);
-
                 imagenFile.transferTo(destino);
 
                 producto.setImagen("/img/productos/" + nombreArchivo);
@@ -240,7 +247,7 @@ public class FlawlessAdminController {
         return "redirect:/admin/productos";
     }
 
-    // SERVICIOS 
+    // SERVICIOS
     @GetMapping("/servicios")
     public String servicios(Model model) {
         model.addAttribute("servicios", servicioService.getServicios());
@@ -250,7 +257,14 @@ public class FlawlessAdminController {
     @GetMapping("/servicios/nuevo")
     public String nuevoServicio(Model model) {
         model.addAttribute("servicio", new FlawlessServicio());
-        model.addAttribute("categorias", categoriaService.getCategoriasServicios());
+
+        model.addAttribute("categorias",
+                categoriaService.getCategorias()
+                        .stream()
+                        .filter(c -> "SERVICIO".equals(c.getTipo()))
+                        .toList()
+        );
+
         return "salonpaneladmin/editarServicio";
     }
 
@@ -264,7 +278,14 @@ public class FlawlessAdminController {
         }
 
         model.addAttribute("servicio", servicio);
-        model.addAttribute("categorias", categoriaService.getCategoriasServicios());
+
+        model.addAttribute("categorias",
+                categoriaService.getCategorias()
+                        .stream()
+                        .filter(c -> "SERVICIO".equals(c.getTipo()))
+                        .toList()
+        );
+
         return "salonpaneladmin/editarServicio";
     }
 
@@ -280,7 +301,7 @@ public class FlawlessAdminController {
         return "redirect:/admin/servicios";
     }
 
-    // CATEGORIAS
+    // CATEGORÍAS
     @GetMapping("/categorias")
     public String categorias(Model model) {
         model.addAttribute("categorias", categoriaService.getCategorias());
@@ -296,7 +317,7 @@ public class FlawlessAdminController {
     @GetMapping("/editarCategoria/{id}")
     public String editarCategoria(@PathVariable Long id, Model model) {
 
-        FlawlessCategoria categoria = categoriaService.getCategoria(id).orElse(null);
+        FlawlessCategoria categoria = categoriaService.getCategoria(id);
 
         if (categoria == null) {
             return "redirect:/admin/categorias";
@@ -306,13 +327,13 @@ public class FlawlessAdminController {
         return "salonpaneladmin/editarCategoria";
     }
 
-    @PostMapping("/guardarCategoria")
-    public String guardarCategoria(FlawlessCategoria categoria) {
+    @PostMapping("/categorias/guardar")
+    public String guardarCategoria(@ModelAttribute FlawlessCategoria categoria) {
         categoriaService.save(categoria);
         return "redirect:/admin/categorias";
     }
 
-    @GetMapping("/eliminarCategoria/{id}")
+    @GetMapping("/categorias/eliminar/{id}")
     public String eliminarCategoria(@PathVariable Long id) {
         categoriaService.delete(id);
         return "redirect:/admin/categorias";
@@ -328,22 +349,16 @@ public class FlawlessAdminController {
                 .sorted((a, b) -> b.getId().compareTo(a.getId()))
                 .toList();
 
-        if (filtro != null && !filtro.isEmpty()) {
-
-            citas = citas.stream()
-                    .filter(c
-                            -> (c.getId() != null && c.getId().toString().contains(filtro))
-                            || (c.getUsuario() != null
-                            && c.getUsuario().getCorreo() != null
-                            && c.getUsuario().getCorreo().toLowerCase().contains(filtro.toLowerCase()))
-                    )
-                    .toList();
-        }
-
         model.addAttribute("citas", citas);
         model.addAttribute("filtro", filtro);
 
         return "salonpaneladmin/citas";
+    }
+
+    @GetMapping("/citas/nueva")
+    public String nuevaCita(Model model) {
+        model.addAttribute("cita", new FlawlessCita());
+        return "salonpaneladmin/crearCita";
     }
 
     // RESERVAS
@@ -356,21 +371,15 @@ public class FlawlessAdminController {
                 .sorted((a, b) -> b.getId().compareTo(a.getId()))
                 .toList();
 
-        if (filtro != null && !filtro.isEmpty()) {
-
-            reservas = reservas.stream()
-                    .filter(r
-                            -> (r.getId() != null && r.getId().toString().contains(filtro))
-                            || (r.getUsuario() != null
-                            && r.getUsuario().getCorreo() != null
-                            && r.getUsuario().getCorreo().toLowerCase().contains(filtro.toLowerCase()))
-                    )
-                    .toList();
-        }
-
         model.addAttribute("reservas", reservas);
         model.addAttribute("filtro", filtro);
 
         return "salonpaneladmin/reservas";
+    }
+
+    @GetMapping("/reservas/nueva")
+    public String nuevaReserva(Model model) {
+        model.addAttribute("reserva", new FlawlessReserva());
+        return "salonpaneladmin/crearReserva";
     }
 }

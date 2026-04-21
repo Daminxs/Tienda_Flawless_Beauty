@@ -24,14 +24,14 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name="servicio")
+@Table(name = "servicio")
 public class FlawlessServicio implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Size(max = 100)
     @Column(nullable = false, length = 100)
     private String nombre;
@@ -42,9 +42,7 @@ public class FlawlessServicio implements Serializable {
     @NotNull
     private Double precio;
 
-    // relación con categoria
     @ManyToOne
-    @JoinColumn(name="categoria_id")
+    @JoinColumn(name = "categoria_id")
     private FlawlessCategoria categoria;
-    
 }

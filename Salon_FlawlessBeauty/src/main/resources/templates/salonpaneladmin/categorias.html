@@ -1,15 +1,145 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+<!-- Panel Admin - categorias.html -->
+<html xmlns:th="http://www.thymeleaf.org">
+
+    <head th:replace="~{general/fragmentos :: head}"></head>
+
     <body>
-        <div>TODO write content</div>
+
+        <header th:replace="~{general/fragmentos :: header}"></header>
+
+        <main class="container mt-5">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <h2 class="mb-0">Gestión de Categorías</h2>
+
+                <a th:href="@{/admin/categorias/nuevo}"
+                   class="btn"
+                   style="border:2px solid #b76e79; color:#b76e79;">
+                    Nueva Categoría
+                </a>
+
+            </div>
+
+            <!-- ERROR -->
+            <div th:if="${param.error == 'tiene_productos'}" class="alert alert-danger">
+                No se puede eliminar la categoría porque tiene productos asociados.
+            </div>
+
+            <div th:if="${param.error == 'tiene_servicios'}" class="alert alert-danger">
+                No se puede eliminar la categoría porque tiene servicios asociados.
+            </div>
+
+            <div class="card shadow p-3">
+
+                <div class="table-responsive">
+
+                    <table class="table table-hover text-center align-middle">
+
+                        <thead style="background:#f3d6cf;">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nombre</th>
+                                <th>Tipo</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            <tr th:each="c : ${categorias}">
+
+                                <td th:text="${c.id}"></td>
+
+                                <td class="fw-bold" th:text="${c.nombre}"></td>
+
+                                <td>
+                                    <span class="badge bg-secondary" th:text="${c.tipo}"></span>
+                                </td>
+
+                                <td>
+
+                                    <div class="d-flex justify-content-center gap-2">
+
+                                        <button class="btn btn-sm"
+                                                style="border:2px solid #b76e79; color:#b76e79;"
+                                                data-bs-toggle="modal"
+                                                th:data-bs-target="'#modal-' + ${c.id}">
+                                            Ver
+                                        </button>
+
+                                        <a th:href="@{'/admin/categorias/editar/' + ${c.id}}"
+                                           class="btn btn-sm"
+                                           style="border:2px solid #b76e79; color:#b76e79;">
+                                            Editar
+                                        </a>
+
+                                        <a th:href="@{'/admin/categorias/eliminar/' + ${c.id}}"
+                                           class="btn btn-sm btn-outline-danger"
+                                           onclick="return confirm('¿Seguro que deseas eliminar esta categoría?');">
+                                            Eliminar
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-4">
+                <a th:href="@{/admin}" class="btn btn-outline-dark">
+                    Volver al panel
+                </a>
+            </div>
+
+        </main>
+        
+
+        <!-- MODAL -->
+        <div th:each="c : ${categorias}"
+             class="modal fade"
+             th:id="'modal-' + ${c.id}"
+             tabindex="-1">
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content rounded-4">
+
+                    <div class="modal-header">
+                        <h5 class="fw-bold">Categoría</h5>
+                        <button class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body text-center">
+
+                        <h4 th:text="${c.nombre}"></h4>
+
+                        <p class="mt-2">
+                            Tipo: <strong th:text="${c.tipo}"></strong>
+                        </p>
+
+                        <hr>
+
+                        <p>ID: <span th:text="${c.id}"></span></p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
     </body>
 </html>
