@@ -23,6 +23,9 @@ import flawless.beauty.domain.*;
 import flawless.beauty.repository.*;
 import flawless.beauty.service.*;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,20 +53,13 @@ public class FlawlessCitaController {
                               Authentication auth,
                               Model model) {
 
-        String correo = auth.getName();
+        if (auth == null) return "redirect:/login";
 
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(auth.getName());
+        FlawlessServicio servicio = servicioRepository.findById(id).orElse(null);
 
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
-        FlawlessServicio servicio = servicioRepository.findById(id)
-                .orElse(null);
-
-        if (servicio == null) {
-            model.addAttribute("error", "Servicio no encontrado");
-            return "perfil";
+        if (usuario == null || servicio == null) {
+            return "redirect:/salonservicios";
         }
 
         model.addAttribute("usuario", usuario);
@@ -79,19 +75,30 @@ public class FlawlessCitaController {
             Authentication auth,
             Model model) {
 
-        String correo = auth.getName();
+        if (auth == null) return "redirect:/login";
 
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(auth.getName());
+        FlawlessServicio servicio = servicioRepository.findById(servicioId).orElse(null);
 
-        if (usuario == null) {
-            return "redirect:/login";
+        if (usuario == null || servicio == null) {
+            return "redirect:/salonservicios";
         }
 
-        FlawlessServicio servicio = servicioRepository.findById(servicioId)
-                .orElse(null);
+        // Validacion en caso de doble cita mismo usuario
+        boolean yaTiene = citaService.existeCitaUsuarioFechaHora(
+                usuario, cita.getFecha(), cita.getHora()
+        );
 
-        if (servicio == null) {
-            model.addAttribute("mensaje", "Servicio no encontrado");
+        if (yaTiene) {
+            model.addAttribute("error", "Ya tienes una cita en esa fecha y hora");
+            return "agendarCita";
+        }
+
+        // Validacion en caso de hora ocupada
+        boolean ocupada = citaService.horaOcupada(cita.getFecha(), cita.getHora());
+
+        if (ocupada) {
+            model.addAttribute("error", "Esa hora ya está ocupada");
             return "agendarCita";
         }
 
@@ -109,13 +116,7 @@ public class FlawlessCitaController {
     @GetMapping("/misCitas")
     public String misCitas(Authentication auth, Model model) {
 
-        String correo = auth.getName();
-
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
-
-        if (usuario == null) {
-            return "redirect:/login";
-        }
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(auth.getName());
 
         model.addAttribute("citas", citaService.findByUsuario(usuario));
 

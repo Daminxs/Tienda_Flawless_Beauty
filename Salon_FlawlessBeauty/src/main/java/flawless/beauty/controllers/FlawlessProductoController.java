@@ -76,28 +76,24 @@ public class FlawlessProductoController {
             Authentication auth,
             Model model) {
 
-        // usuario logeado
-        String correo = auth.getName();
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(auth.getName());
+        FlawlessProducto producto = productoRepository.findById(productoId).orElse(null);
 
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
-
-        if (usuario == null) {
-            return "redirect:/login";
+        if (usuario == null || producto == null) {
+            return "redirect:/salonproductos";
         }
 
-        FlawlessProducto producto = productoRepository.findById(productoId)
-                .orElse(null);
-
-        if (producto == null) {
-            model.addAttribute("mensaje", "Producto no encontrado");
+        if (producto.getStock() < reserva.getCantidad()) {
+            model.addAttribute("mensaje", "Stock insuficiente");
             return "salonproductos/listado";
         }
 
+        producto.setStock(producto.getStock() - reserva.getCantidad());
+        productoRepository.save(producto);
+
         reserva.setUsuario(usuario);
         reserva.setProducto(producto);
-
-        long numero = reservaService.getReservas().size() + 1;
-        reserva.setCodigo(String.format("RES-%05d", numero));
+        reserva.setCodigo("RES-" + System.currentTimeMillis());
 
         reservaService.save(reserva);
 

@@ -29,8 +29,6 @@ import lombok.Data;
 @Table(name="cita")
 public class FlawlessCita implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -51,5 +49,5 @@ public class FlawlessCita implements Serializable {
     @ManyToOne
     @JoinColumn(name="servicio_id")
     private FlawlessServicio servicio;
-
+    
 }

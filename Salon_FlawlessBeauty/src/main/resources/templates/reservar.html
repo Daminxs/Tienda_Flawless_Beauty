@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-    Encargado para Damian
+    Encargado para Damian: reservar.html
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -35,7 +35,6 @@
             <form th:action="@{/guardarReserva}" method="post">
 
                 <input type="hidden" name="productoId" th:value="${producto.id}">
-                <input type="hidden" name="nombreCliente" th:value="${usuario.nombre}">
 
                 <label class="form-label">Cantidad</label>
 

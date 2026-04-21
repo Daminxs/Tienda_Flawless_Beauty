@@ -27,8 +27,6 @@ import lombok.Data;
 @Table(name="producto")
 public class FlawlessProducto implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -52,5 +50,5 @@ public class FlawlessProducto implements Serializable {
     @ManyToOne
     @JoinColumn(name="categoria_id")
     private FlawlessCategoria categoria;
-
+    
 }

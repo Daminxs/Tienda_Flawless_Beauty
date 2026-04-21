@@ -27,8 +27,6 @@ import lombok.Data;
 @Table(name="categoria_producto")
 public class FlawlessCategoria implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,5 +35,5 @@ public class FlawlessCategoria implements Serializable {
     @Size(max = 100)
     @Column(nullable = false, length = 100)
     private String nombre;
-
+    
 }

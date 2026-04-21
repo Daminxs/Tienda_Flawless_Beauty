@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!--
-    Encargado para Damian
+    Encargado para Damian: agendarCita.html
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 
@@ -35,31 +35,35 @@
             <form th:action="@{/guardarCita}" method="post">
 
                 <input type="hidden" name="servicioId" th:value="${servicio.id}">
-                <input type="hidden" name="nombreCliente" th:value="${usuario.nombre}">
 
                 <label class="form-label">Fecha</label>
                 <input type="date" name="fecha" class="form-control" required>
 
-                <label class="mt-3">Hora disponible</label>
+                <label class="mt-3 form-label">Hora disponible</label>
 
-                <div>
-                    <input type="radio" name="hora" value="10:00"> 10:00
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hora" value="10:00">
+                    <label class="form-check-label">10:00</label>
                 </div>
 
-                <div>
-                    <input type="radio" name="hora" value="11:00"> 11:00
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hora" value="11:00">
+                    <label class="form-check-label">11:00</label>
                 </div>
 
-                <div>
-                    <input type="radio" name="hora" value="12:00"> 12:00
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hora" value="12:00">
+                    <label class="form-check-label">12:00</label>
                 </div>
 
-                <div>
-                    <input type="radio" name="hora" value="14:00"> 14:00
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hora" value="14:00">
+                    <label class="form-check-label">14:00</label>
                 </div>
 
-                <div>
-                    <input type="radio" name="hora" value="15:00"> 15:00
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="hora" value="15:00">
+                    <label class="form-check-label">15:00</label>
                 </div>
 
                 <br>

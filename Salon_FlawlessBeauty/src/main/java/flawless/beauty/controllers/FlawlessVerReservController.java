@@ -13,14 +13,16 @@ package flawless.beauty.controllers;
 
 //
 
+import flawless.beauty.domain.FlawlessReserva;
 import flawless.beauty.domain.FlawlessUsuario;
 import flawless.beauty.repository.FlawlessUsuarioRepository;
 import flawless.beauty.service.FlawlessReservaService;
+
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class FlawlessVerReservController {
@@ -38,16 +40,32 @@ public class FlawlessVerReservController {
             return "redirect:/login";
         }
 
-        String correo = principal.getName();
+        FlawlessUsuario usuario =
+                usuarioRepository.findByCorreo(principal.getName());
 
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
-
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
-        model.addAttribute("reservas", reservaService.findByUsuario(usuario));
+        model.addAttribute("reservas",
+                reservaService.findByUsuario(usuario)
+                        .stream()
+                        .sorted((a, b) -> b.getId().compareTo(a.getId()))
+                        .toList()
+        );
 
         return "verReservas";
     }
+
+    @GetMapping("/cancelarReserva/{id}")
+    public String cancelarReserva(@PathVariable Long id,
+                                  Principal principal) {
+
+        FlawlessReserva reserva = reservaService.getReservaById(id);
+
+        if (reserva != null &&
+            reserva.getUsuario().getCorreo().equals(principal.getName())) {
+
+            reservaService.delete(reserva);
+        }
+
+        return "redirect:/verReservas";
+    }
+    
 }

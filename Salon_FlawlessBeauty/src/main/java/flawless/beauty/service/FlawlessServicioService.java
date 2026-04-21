@@ -38,6 +38,10 @@ public class FlawlessServicioService {
         return servicioRepository.findById(id).orElse(null);
     }
 
+    public FlawlessServicio getById(Long id) {
+        return getServicio(id);
+    }
+
     public void save(FlawlessServicio servicio) {
         servicioRepository.save(servicio);
     }
@@ -45,9 +49,9 @@ public class FlawlessServicioService {
     public void delete(Long id) {
         servicioRepository.deleteById(id);
     }
-    
+
     public List<FlawlessServicio> getServiciosPorCategoria(Long categoriaId) {
         return servicioRepository.findByCategoriaId(categoriaId);
     }
-
+    
 }

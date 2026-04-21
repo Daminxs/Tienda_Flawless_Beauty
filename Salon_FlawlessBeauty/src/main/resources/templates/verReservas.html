@@ -4,43 +4,59 @@
 -->
 <html xmlns:th="http://www.thymeleaf.org">
 
-    <head th:replace="~{general/fragmentos :: head}"></head>
+<head th:replace="~{general/fragmentos :: head}"></head>
 
-    <body>
+<body>
 
-        <header th:replace="~{general/fragmentos :: header}"></header>
+<header th:replace="~{general/fragmentos :: header}"></header>
 
-        <div class="container mt-5">
+<div class="container mt-5">
 
-            <h3>Mis Reservas</h3>
+    <h3>Mis Reservas</h3>
 
-            <table class="table table-bordered">
+    <table class="table table-bordered table-hover">
 
-                <thead>
-                    <tr>
-                        <th>Código</th>
-                        <th>Cliente</th>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                    </tr>
-                </thead>
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Cliente</th>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Cantidad</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
 
-                <tbody>
+        <tbody>
 
-                    <tr th:each="r : ${reservas}">
-                        <td th:text="${r.codigo}"></td>
-                        <td th:text="${r.usuario.nombre}"></td>
-                        <td th:text="${r.producto.nombre}"></td>
-                        <td th:text="${r.cantidad}"></td>
-                    </tr>
-                    
-                </tbody>
+        <tr th:each="r : ${reservas}">
+            <td th:text="${r.codigo}"></td>
+            <td th:text="${r.usuario.nombre}"></td>
+            <td th:text="${r.producto.nombre}"></td>
 
-            </table>
+            <td th:text="${r.producto.precio}"></td>
+            <td th:text="${r.cantidad}"></td>
 
-        </div>
+            <td th:text="${r.producto.precio * r.cantidad}"></td>
 
-        <footer th:replace="~{general/fragmentos :: footer}"></footer>
+            <td>
+                <a th:href="@{/cancelarReserva/{id}(id=${r.id})}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('¿Cancelar esta reserva?');">
+                    Cancelar
+                </a>
+            </td>
 
-    </body>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+</body>
 </html>

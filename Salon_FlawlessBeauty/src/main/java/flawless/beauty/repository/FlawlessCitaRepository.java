@@ -19,12 +19,27 @@ package flawless.beauty.repository;
 
 import flawless.beauty.domain.FlawlessCita;
 import flawless.beauty.domain.FlawlessUsuario;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FlawlessCitaRepository extends JpaRepository<FlawlessCita, Long> {
 
-    // Esto devuelve solo las citas de un usuario específico
     List<FlawlessCita> findByUsuario(FlawlessUsuario usuario);
 
+    List<FlawlessCita> findByFecha(LocalDate fecha);
+
+    List<FlawlessCita> findByFechaAndHora(LocalDate fecha, LocalTime hora);
+
+    boolean existsByFechaAndHora(LocalDate fecha, LocalTime hora);
+
+    boolean existsByUsuarioAndFechaAndHora(
+            FlawlessUsuario usuario,
+            LocalDate fecha,
+            LocalTime hora
+    );
+
+    // Editar sin fechas o dias o horas iguales
+    boolean existsByIdNotAndFechaAndHora(Long id, LocalDate fecha, LocalTime hora);
 }

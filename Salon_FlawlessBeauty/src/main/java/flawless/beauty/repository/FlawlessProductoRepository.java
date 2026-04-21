@@ -21,7 +21,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FlawlessProductoRepository extends JpaRepository<FlawlessProducto, Long> {
-    
+
     List<FlawlessProducto> findByCategoriaId(Long categoriaId);
-    
+
 }

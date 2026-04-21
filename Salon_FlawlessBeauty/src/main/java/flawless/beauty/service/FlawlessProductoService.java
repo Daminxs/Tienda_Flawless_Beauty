@@ -38,8 +38,12 @@ public class FlawlessProductoService {
         return productoRepository.findByCategoriaId(categoriaId);
     }
 
-    public FlawlessProducto getProducto(Long id) {
+    public FlawlessProducto getById(Long id) {
         return productoRepository.findById(id).orElse(null);
+    }
+
+    public FlawlessProducto getProducto(Long id) {
+        return getById(id);
     }
 
     public void save(FlawlessProducto producto) {
@@ -48,5 +52,19 @@ public class FlawlessProductoService {
 
     public void delete(Long id) {
         productoRepository.deleteById(id);
+    }
+
+    public boolean hayStock(FlawlessProducto p, int cantidad) {
+        return p.getStock() != null && p.getStock() >= cantidad;
+    }
+
+    public void descontarStock(FlawlessProducto p, int cantidad) {
+
+        if (p.getStock() == null) {
+            p.setStock(0);
+        }
+
+        p.setStock(p.getStock() - cantidad);
+        productoRepository.save(p);
     }
 }

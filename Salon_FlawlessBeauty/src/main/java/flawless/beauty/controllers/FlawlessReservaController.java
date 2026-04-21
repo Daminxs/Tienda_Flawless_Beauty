@@ -26,6 +26,7 @@ import flawless.beauty.service.FlawlessReservaService;
 import jakarta.servlet.http.HttpSession;
 import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,27 +46,17 @@ public class FlawlessReservaController {
     private FlawlessReservaService reservaService;
 
     @GetMapping("/reservarProducto")
-    public String reservarProducto(@RequestParam Long id, HttpSession session, Model model) {
+    public String reservarProducto(@RequestParam Long id,
+                                   Authentication auth,
+                                   Model model) {
 
-        String correo = (String) session.getAttribute("correo");
+        if (auth == null) return "redirect:/login";
 
-        if (correo == null) {
-            model.addAttribute("error", "Debes iniciar sesión para reservar un producto");
-            return "login";
-        }
-
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
-
-        if (usuario == null) {
-            model.addAttribute("error", "Usuario no encontrado");
-            return "login";
-        }
-
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(auth.getName());
         FlawlessProducto producto = productoRepository.findById(id).orElse(null);
 
-        if (producto == null) {
-            model.addAttribute("error", "Producto no encontrado");
-            return "perfil";
+        if (producto == null || usuario == null) {
+            return "redirect:/salonproductos";
         }
 
         model.addAttribute("usuario", usuario);
@@ -78,35 +69,33 @@ public class FlawlessReservaController {
     public String guardarReserva(
             @RequestParam Long productoId,
             FlawlessReserva reserva,
-            HttpSession session,
+            Authentication auth,
             Model model) {
 
-        String correo = (String) session.getAttribute("correo");
-
-        if (correo == null) {
-            return "redirect:/login";
-        }
-
-        FlawlessUsuario usuario = usuarioRepository.findByCorreo(correo);
-
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
+        FlawlessUsuario usuario = usuarioRepository.findByCorreo(auth.getName());
         FlawlessProducto producto = productoRepository.findById(productoId).orElse(null);
 
-        if (producto == null) {
-            model.addAttribute("mensaje", "Producto no encontrado");
+        if (producto == null || usuario == null) {
+            return "redirect:/salonproductos";
+        }
+
+        // STOCK
+        if (producto.getStock() <= 0 || producto.getStock() < reserva.getCantidad()) {
+            model.addAttribute("mensaje", "No hay suficiente stock");
             return "reservar";
         }
 
+        producto.setStock(producto.getStock() - reserva.getCantidad());
+        productoRepository.save(producto);
+
         reserva.setUsuario(usuario);
         reserva.setProducto(producto);
-        reserva.setCodigo(UUID.randomUUID().toString().substring(0,8).toUpperCase());
+
+        reserva.setCodigo("RES-" + System.currentTimeMillis());
 
         reservaService.save(reserva);
 
         return "redirect:/verReservas";
     }
-
+    
 }

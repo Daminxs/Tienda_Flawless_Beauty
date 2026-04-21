@@ -19,7 +19,9 @@ package flawless.beauty.service;
 import flawless.beauty.domain.FlawlessReserva;
 import flawless.beauty.domain.FlawlessUsuario;
 import flawless.beauty.repository.FlawlessReservaRepository;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,8 +35,12 @@ public class FlawlessReservaService {
         return reservaRepository.findAll();
     }
 
-    public FlawlessReserva getReserva(FlawlessReserva reserva) {
-        return reservaRepository.findById(reserva.getId()).orElse(null);
+    public FlawlessReserva getReservaById(Long id) {
+        return reservaRepository.findById(id).orElse(null);
+    }
+
+    public FlawlessReserva getById(Long id) {
+        return getReservaById(id);
     }
 
     public void save(FlawlessReserva reserva) {
@@ -48,5 +54,5 @@ public class FlawlessReservaService {
     public List<FlawlessReserva> findByUsuario(FlawlessUsuario usuario) {
         return reservaRepository.findByUsuario(usuario);
     }
-
+    
 }
