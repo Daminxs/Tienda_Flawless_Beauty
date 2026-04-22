@@ -140,9 +140,9 @@ INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
 (2, 2);
 
 UPDATE usuario
-SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa'
+SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa' -- 1234 password
 WHERE correo='admin@flawless.com';
 
 UPDATE usuario
-SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa'
+SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa' -- 1234 password
 WHERE correo='cliente@flawless.com';
