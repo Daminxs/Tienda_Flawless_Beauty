@@ -318,16 +318,19 @@ public class FlawlessAdminController {
         return "salonpaneladmin/editarCategoria";
     }
 
-    @GetMapping("/editarCategoria/{id}")
+    @GetMapping("/categorias/editar/{id}")
     public String editarCategoria(@PathVariable Long id, Model model) {
 
+        // Buscar la categoría por ID
         FlawlessCategoria categoria = categoriaService.getCategoria(id);
 
+        // Validar si existe
         if (categoria == null) {
             return "redirect:/admin/categorias";
         }
 
         model.addAttribute("categoria", categoria);
+
         return "salonpaneladmin/editarCategoria";
     }
 
