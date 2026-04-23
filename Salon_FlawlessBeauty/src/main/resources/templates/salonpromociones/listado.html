@@ -3,15 +3,49 @@
     Encargado para Monica: listado (salonpromociones)
 -->
 <html xmlns:th="http://www.thymeleaf.org">
-    
+
     <head th:replace="~{general/fragmentos :: head}"></head>
     <body>
 
         <header th:replace="~{general/fragmentos :: header}"></header>
 
         <main class="container mt-5">
-            <div class="text-center mb-5">
-                <h1 style="color: #b76e79; font-weight: bold;">¡Descubre lo que tenemos para ti!</h1>
+
+            <div class="text-center mb-4">
+                <h1 style="color: #b76e79; font-weight: bold;">
+                    ¡Descubre lo que tenemos para ti!
+                </h1>
+            </div>
+
+            <!-- BUSCADOR + FILTRO -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-8">
+                    <form method="get" th:action="@{/salonpromociones}" class="d-flex gap-2">
+
+                        <input type="text"
+                               name="filtro"
+                               class="form-control"
+                               placeholder="Buscar promoción..."
+                               th:value="${filtro}">
+
+                        <!-- NUEVO FILTRO -->
+                        <select name="tipo" class="form-select" style="max-width: 180px;">
+                            <option value="">Todos</option>
+                            <option value="SERVICIO" th:selected="${tipo == 'SERVICIO'}">
+                                Servicios
+                            </option>
+                            <option value="PRODUCTO" th:selected="${tipo == 'PRODUCTO'}">
+                                Productos
+                            </option>
+                        </select>
+
+                        <button class="btn"
+                                style="background-color:#b76e79; color:white;">
+                            <i class="bi bi-search"></i>
+                        </button>
+
+                    </form>
+                </div>
             </div>
 
             <div class="row justify-content-center">
@@ -30,19 +64,35 @@
                         <div class="card-body text-center">
                             <h5 style="color: #b76e79;" th:text="${promo.titulo}">Título</h5>
                             <p class="text-muted small" th:text="${promo.descripcion}">Descripción</p>
+
+                            <p th:if="${promo.tipo != null}" 
+                               style="font-size: 0.85rem; color:#6c757d;">
+                                <span th:text="${promo.tipo}"></span>
+                            </p>
+
+                            <p th:if="${promo.descuento != null}" 
+                               style="font-weight:bold; color:#28a745;">
+                                <span th:text="${promo.descuento}"></span>% de descuento
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <!-- CUANDO NO HAY PROMOS -->
-                <div class="col-12 text-center" th:if="${#lists.isEmpty(promociones)}">
-                    <p class="text-muted">No hay promociones disponibles por el momento.</p>
+                <!-- CUANDO NO HAY RESULTADOS -->
+                <div class="col-12 text-center" 
+                     th:if="${#lists.isEmpty(promociones)}">
+                    <p class="text-muted">
+                        No se encontraron promociones disponibles.
+                    </p>
                 </div>
 
             </div>
         </main>
 
         <footer th:replace="~{general/fragmentos :: footer}"></footer>
+
+        <!-- ICONOS -->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     </body>
 </html>
