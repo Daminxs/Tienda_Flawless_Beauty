@@ -1,16 +1,13 @@
 
 -- 1) CREAR USUARIO
 DROP USER IF EXISTS 'flawless_user'@'localhost';
-CREATE USER 'flawless_user'@'localhost'
-IDENTIFIED BY '123456';
+CREATE USER 'flawless_user'@'localhost' IDENTIFIED BY '123456';
 
 -- 2) CREAR BASE DE DATOS
 DROP DATABASE IF EXISTS flawless_beauty;
 CREATE DATABASE flawless_beauty;
 
-GRANT ALL PRIVILEGES ON flawless_beauty.*
-TO 'flawless_user'@'localhost';
-
+GRANT ALL PRIVILEGES ON flawless_beauty.* TO 'flawless_user'@'localhost';
 FLUSH PRIVILEGES;
 
 USE flawless_beauty;
@@ -71,14 +68,28 @@ CREATE TABLE producto (
 
 -- 9) TABLA PROMOCION
 CREATE TABLE promocion (
-    id           INT AUTO_INCREMENT PRIMARY KEY,
-    titulo       VARCHAR(100) NOT NULL,
-    descripcion  TEXT,
-    descuento    DECIMAL(5,2) NOT NULL,
-    imagen       VARCHAR(255) NULL,
-    activo       BOOLEAN      NOT NULL DEFAULT TRUE,
-    fecha_inicio DATE         NULL,
-    fecha_fin    DATE         NULL
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(100) NOT NULL,
+    descripcion TEXT,
+    tipo VARCHAR(20) NOT NULL,
+    descuento DECIMAL(5,2) NOT NULL,
+    categoria_id INT NOT NULL,
+    servicio_id INT NULL,
+    producto_id INT NULL,
+    cantidad_minima INT NULL,
+    precio_especial DECIMAL(8,2) NULL,
+    imagen VARCHAR(255),
+    activo BOOLEAN DEFAULT TRUE,
+    fecha_inicio DATE,
+    fecha_fin DATE,
+    FOREIGN KEY (categoria_id) REFERENCES categoria(id),
+    FOREIGN KEY (servicio_id) REFERENCES servicio(id),
+    FOREIGN KEY (producto_id) REFERENCES producto(id),
+    CHECK (
+        (tipo = 'SERVICIO' AND servicio_id IS NOT NULL AND producto_id IS NULL)
+        OR
+        (tipo = 'PRODUCTO' AND producto_id IS NOT NULL AND servicio_id IS NULL)
+    )
 );
 
 -- 10) TABLA CITA
@@ -114,35 +125,28 @@ CREATE TABLE reset_password (
 );
 
 -- DATOS INICIALES
-
-INSERT INTO categoria (nombre, tipo) VALUES
+INSERT INTO categoria (nombre, tipo) VALUES 
 ('Maquillajes', 'SERVICIO'),
 ('Labiales', 'PRODUCTO');
 
-INSERT INTO rol (nombre) VALUES
+INSERT INTO rol (nombre) VALUES 
 ('ROLE_ADMIN'),
 ('ROLE_USER');
 
-INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES
-('Administrador', 'admin@flawless.com', '88888888',
-'$2a$10$KIXk1H0nR2fEMM0lP0W5pO8nKXu95syEHCqB6fRwGO6zkRgZNpmjS',
-TRUE);
+INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES 
+('Administrador', 'admin@flawless.com', '88888888', '$2a$10$KIXk1H0nR2fEMM0lP0W5pO8nKXu95syEHCqB6fRwGO6zkRgZNpmjS', TRUE);
 
-INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
-(1, 1);
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (1, 1);
 
-INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES
-('Cliente Demo', 'cliente@flawless.com', '88888888',
-'$2a$10$KIXk1H0nR2fEMM0lP0W5pO8nKXu95syEHCqB6fRwGO6zkRgZNpmjS',
-TRUE);
+INSERT INTO usuario (nombre, correo, telefono, password, activo) VALUES 
+('Cliente Demo', 'cliente@flawless.com', '88888888', '$2a$10$KIXk1H0nR2fEMM0lP0W5pO8nKXu95syEHCqB6fRwGO6zkRgZNpmjS', TRUE);
 
-INSERT INTO usuario_rol (id_usuario, id_rol) VALUES
-(2, 2);
+INSERT INTO usuario_rol (id_usuario, id_rol) VALUES (2, 2);
 
-UPDATE usuario
-SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa' -- 1234 password
+UPDATE usuario 
+SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa'
 WHERE correo='admin@flawless.com';
 
-UPDATE usuario
-SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa' -- 1234 password
+UPDATE usuario 
+SET password='$2a$10$izwsyT9s9Z2HCae9NxPSYum0.Zg.QNWRfqkrSSLmsLNI.RWywvbNa'
 WHERE correo='cliente@flawless.com';
