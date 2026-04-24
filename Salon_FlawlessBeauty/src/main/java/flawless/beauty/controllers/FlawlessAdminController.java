@@ -392,35 +392,111 @@ public class FlawlessAdminController {
 
     // PROMOCIONES
     @GetMapping("/promociones")
-    public String promociones(Model model) {
-        model.addAttribute("promociones", promocionService.getPromocionesVigentes());
+    public String promociones(
+            @RequestParam(required = false) String filtro,
+            @RequestParam(required = false) String tipo,
+            Model model) {
+
+        var promociones = promocionService.filtrarPromociones(filtro, tipo);
+
+        // calcular precio dinamico (faltaba esto)
+        promociones.forEach(p -> {
+            Double precio = promocionService.calcularPrecioFinal(p);
+            p.setPrecioCalculado(precio);
+        });
+
+        model.addAttribute("promociones", promociones);
+        model.addAttribute("filtro", filtro);
+        model.addAttribute("tipo", tipo);
+
         return "salonpaneladmin/promociones";
     }
 
     @GetMapping("/promociones/nueva")
     public String nuevaPromocion(Model model) {
+
         model.addAttribute("promocion", new FlawlessPromocion());
+
+        model.addAttribute("categorias", categoriaService.getCategorias());
+        model.addAttribute("servicios", servicioService.getServicios());
+        model.addAttribute("productos", productoService.getProductos());
+
+        return "salonpaneladmin/editarPromocion";
+    }
+    
+    @PostMapping("/cambiarTipoPromocion")
+    public String cambiarTipoPromocion(
+            @ModelAttribute FlawlessPromocion promocion,
+            Model model) {
+
+        // Mantener lo que el usuario ya seleccionó
+        model.addAttribute("promocion", promocion);
+
+        // Recargar listas necesarias para el formulario
+        model.addAttribute("categorias", categoriaService.getCategorias());
+        model.addAttribute("servicios", servicioService.getServicios());
+        model.addAttribute("productos", productoService.getProductos());
+
         return "salonpaneladmin/editarPromocion";
     }
 
     @GetMapping("/editarPromocion/{id}")
     public String editarPromocion(@PathVariable Long id, Model model) {
+
         FlawlessPromocion promocion = promocionService.getPromocionById(id);
+
         if (promocion == null) {
             return "redirect:/admin/promociones";
         }
+
         model.addAttribute("promocion", promocion);
+
+        model.addAttribute("categorias", categoriaService.getCategorias());
+        model.addAttribute("servicios", servicioService.getServicios());
+        model.addAttribute("productos", productoService.getProductos());
+
         return "salonpaneladmin/editarPromocion";
     }
 
     @PostMapping("/guardarPromocion")
     public String guardarPromocion(
             @ModelAttribute FlawlessPromocion promocion,
+            @RequestParam(value = "categoria", required = false) Long categoriaId,
+            @RequestParam(value = "producto", required = false) Long productoId,
+            @RequestParam(value = "servicio", required = false) Long servicioId,
             @RequestParam(value = "imagenFile", required = false) MultipartFile imagenFile) {
 
         try {
 
-            // Mantener imagen si no se cambia
+            // MAPEAR CATEGORIA
+            if (categoriaId != null) {
+                FlawlessCategoria categoria = categoriaService.getCategoria(categoriaId);
+                promocion.setCategoria(categoria);
+            }
+
+            // MAPEAR PRODUCTO
+            if (productoId != null) {
+                FlawlessProducto producto = productoService.getProducto(productoId);
+                promocion.setProducto(producto);
+            }
+
+            // MAPEAR SERVICIO
+            if (servicioId != null) {
+                FlawlessServicio servicio = servicioService.getServicio(servicioId);
+                promocion.setServicio(servicio);
+            }
+
+            // LIMPIAR RELACIONES SEGÚN TIPO
+            if ("SERVICIO".equals(promocion.getTipo())) {
+                promocion.setProducto(null);
+                promocion.setCantidadMinima(null);
+            }
+
+            if ("PRODUCTO".equals(promocion.getTipo())) {
+                promocion.setServicio(null);
+            }
+
+            // IMAGEN
             if (promocion.getId() != null) {
                 FlawlessPromocion existente = promocionService.getPromocionById(promocion.getId());
                 if (existente != null && existente.getImagen() != null
@@ -429,7 +505,6 @@ public class FlawlessAdminController {
                 }
             }
 
-            // Guardar nueva imagen
             if (imagenFile != null && !imagenFile.isEmpty()) {
                 String original = imagenFile.getOriginalFilename();
                 String nombreArchivo = "promo_" + System.currentTimeMillis()
@@ -446,17 +521,6 @@ public class FlawlessAdminController {
                 imagenFile.transferTo(new java.io.File(directorio, nombreArchivo));
 
                 promocion.setImagen("/img/promociones/" + nombreArchivo);
-            }
-
-            // VALIDACIÓN DE ACTIVO SEGÚN FECHAS
-            java.time.LocalDate hoy = java.time.LocalDate.now();
-
-            if (promocion.getFechaInicio() != null && promocion.getFechaFin() != null) {
-                if (hoy.isBefore(promocion.getFechaInicio()) || hoy.isAfter(promocion.getFechaFin())) {
-                    promocion.setActivo(false);
-                } else {
-                    promocion.setActivo(true);
-                }
             }
 
             promocionService.save(promocion);

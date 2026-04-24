@@ -29,6 +29,10 @@ public class FlawlessPromocion implements Serializable {
     private String descripcion;
 
     @NotNull
+    @Column(nullable = false, length = 20)
+    private String tipo; // SERVICIO o PRODUCTO
+
+    @NotNull
     @DecimalMin("0.0")
     @DecimalMax("100.0")
     private Double descuento;
@@ -43,5 +47,25 @@ public class FlawlessPromocion implements Serializable {
 
     @Column(name = "fecha_fin")
     private LocalDate fechaFin;
+
+    // RELACIONES BD
+    @ManyToOne
+    @JoinColumn(name = "categoria_id", nullable = false)
+    private FlawlessCategoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "servicio_id")
+    private FlawlessServicio servicio;
+
+    @ManyToOne
+    @JoinColumn(name = "producto_id")
+    private FlawlessProducto producto;
+
+    // SOLO PRODUCTOS
+    @Column(name = "cantidad_minima")
+    private Integer cantidadMinima;
+    
+    @Transient
+    private Double precioCalculado;
     
 }

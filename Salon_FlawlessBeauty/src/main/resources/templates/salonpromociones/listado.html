@@ -28,7 +28,7 @@
                                placeholder="Buscar promoción..."
                                th:value="${filtro}">
 
-                        <!-- NUEVO FILTRO -->
+                        <!-- FILTRO -->
                         <select name="tipo" class="form-select" style="max-width: 180px;">
                             <option value="">Todos</option>
                             <option value="SERVICIO" th:selected="${tipo == 'SERVICIO'}">
@@ -54,7 +54,7 @@
                 <div class="col-md-5 col-lg-4 mb-4" th:each="promo : ${promociones}">
                     <div class="card border-0 shadow-sm" style="border-radius: 15px;">
 
-                        <!-- Imagen dinámica -->
+                        <!-- Imagen -->
                         <img th:if="${promo.imagen != null}" 
                              th:src="@{${promo.imagen}}" 
                              class="card-img-top"
@@ -62,7 +62,9 @@
                              alt="Promoción">
 
                         <div class="card-body text-center">
+
                             <h5 style="color: #b76e79;" th:text="${promo.titulo}">Título</h5>
+
                             <p class="text-muted small" th:text="${promo.descripcion}">Descripción</p>
 
                             <p th:if="${promo.tipo != null}" 
@@ -70,15 +72,30 @@
                                 <span th:text="${promo.tipo}"></span>
                             </p>
 
-                            <p th:if="${promo.descuento != null}" 
-                               style="font-weight:bold; color:#28a745;">
-                                <span th:text="${promo.descuento}"></span>% de descuento
+                            <!-- PRECIO ORIGINAL -->
+                            <p style="text-decoration: line-through; color: gray;">
+                                ₡
+                                <span th:text="${promo.producto != null ? promo.producto.precio : promo.servicio.precio}">
+                                </span>
                             </p>
+
+                            <!-- PRECIO CON DESCUENTO -->
+                            <p style="font-weight:bold; color:#28a745;">
+                                ₡
+                                <span th:text="${promo.precioCalculado}"></span>
+                            </p>
+
+                            <!-- DESCUENTO -->
+                            <p th:if="${promo.descuento != null}" 
+                               style="font-weight:bold; color:#b76e79;">
+                                <span th:text="${promo.descuento}"></span>% OFF
+                            </p>
+
                         </div>
                     </div>
                 </div>
 
-                <!-- CUANDO NO HAY RESULTADOS -->
+                <!-- SIN RESULTADOS -->
                 <div class="col-12 text-center" 
                      th:if="${#lists.isEmpty(promociones)}">
                     <p class="text-muted">
